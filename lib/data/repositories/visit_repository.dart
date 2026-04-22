@@ -23,14 +23,14 @@ class VisitRepository {
     return !connectivityResult.contains(ConnectivityResult.none);
   }
 
-  /// Return [bool]: true jika masuk mode offline, false jika sukses online
+  /// Return [bool]: true jika masuk mode offline, fkalse jika sukses online
   Future<bool> submitCheckIn(CheckInPayload payload) async {
     final isOnline = await _isConnected();
 
     if (isOnline) {
       try {
         final response = await apiClient.post(
-          'mobile/geofence/check-in',
+          '/mobile/check-in',
           payload.toJson(),
         );
         if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -55,7 +55,7 @@ class VisitRepository {
     if (isOnline) {
       try {
         final response = await apiClient.post(
-          'mobile/geofence/check-out',
+          '/mobile/check-out',
           payload.toJson(),
         );
         if (response.statusCode >= 200 && response.statusCode < 300) {

@@ -4,10 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geofence_visit_mobile/data/local/local_db_service.dart';
 import 'package:geofence_visit_mobile/data/network/api_client.dart';
 import 'package:geofence_visit_mobile/data/repositories/auth_repository.dart';
+import 'package:geofence_visit_mobile/data/repositories/master_data_repository.dart';
 import 'package:geofence_visit_mobile/data/repositories/visit_repository.dart';
 import 'package:geofence_visit_mobile/presentations/auth/bloc/auth/auth_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/auth/pages/splash_screen.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/location/location_bloc.dart';
+import 'package:geofence_visit_mobile/presentations/homepage/bloc/master_data/master_data_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/visit/visit_bloc.dart';
 
 void main() async {
@@ -25,20 +27,27 @@ void main() async {
     localDb: localDb,
     connectivity: connectivity,
   );
+  final masterDataRepository = MasterDataRepository(apiClient: apiClient);
 
   runApp(
-    MyApp(authRepository: authRepository, visitRepository: visitRepository),
+    MyApp(
+      authRepository: authRepository,
+      visitRepository: visitRepository,
+      masterDataRepository: masterDataRepository,
+    ),
   );
 }
 
 class MyApp extends StatelessWidget {
   final AuthRepository authRepository;
   final VisitRepository visitRepository;
+  final MasterDataRepository masterDataRepository;
 
   const MyApp({
     super.key,
     required this.authRepository,
     required this.visitRepository,
+    required this.masterDataRepository,
   });
 
   @override
@@ -54,6 +63,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<LocationBloc>(create: (context) => LocationBloc()),
         BlocProvider<VisitBloc>(
           create: (context) => VisitBloc(repository: visitRepository),
+        ),
+        BlocProvider<MasterDataBloc>(
+          create: (context) =>
+              MasterDataBloc(repository: masterDataRepository)
+                ..add(const MasterDataEvent.fetchData()),
         ),
       ],
       child: MaterialApp(

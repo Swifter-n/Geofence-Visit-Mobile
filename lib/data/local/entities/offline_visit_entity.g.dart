@@ -31,7 +31,7 @@ const OfflineVisitEntitySchema = CollectionSchema(
     r'syncStatus': PropertySchema(
       id: 2,
       name: r'syncStatus',
-      type: IsarType.long,
+      type: IsarType.int,
     ),
     r'timestamp': PropertySchema(
       id: 3,
@@ -83,7 +83,7 @@ void _offlineVisitEntitySerialize(
 ) {
   writer.writeString(offsets[0], object.localPhotoPath);
   writer.writeString(offsets[1], object.payloadJson);
-  writer.writeLong(offsets[2], object.syncStatus);
+  writer.writeInt(offsets[2], object.syncStatus);
   writer.writeDateTime(offsets[3], object.timestamp);
   writer.writeString(offsets[4], object.type);
 }
@@ -98,7 +98,7 @@ OfflineVisitEntity _offlineVisitEntityDeserialize(
   object.id = id;
   object.localPhotoPath = reader.readStringOrNull(offsets[0]);
   object.payloadJson = reader.readString(offsets[1]);
-  object.syncStatus = reader.readLong(offsets[2]);
+  object.syncStatus = reader.readInt(offsets[2]);
   object.timestamp = reader.readDateTime(offsets[3]);
   object.type = reader.readString(offsets[4]);
   return object;
@@ -116,7 +116,7 @@ P _offlineVisitEntityDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
-      return (reader.readLong(offset)) as P;
+      return (reader.readInt(offset)) as P;
     case 3:
       return (reader.readDateTime(offset)) as P;
     case 4:

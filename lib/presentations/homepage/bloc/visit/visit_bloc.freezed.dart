@@ -18,21 +18,24 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$VisitEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CheckInPayload payload) submitCheckIn,
+    required TResult Function(CheckInPayload payload, List<String> photoPaths)
+        submitCheckIn,
     required TResult Function(CheckOutPayload payload) submitCheckOut,
     required TResult Function() syncOfflineData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CheckInPayload payload)? submitCheckIn,
+    TResult? Function(CheckInPayload payload, List<String> photoPaths)?
+        submitCheckIn,
     TResult? Function(CheckOutPayload payload)? submitCheckOut,
     TResult? Function()? syncOfflineData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CheckInPayload payload)? submitCheckIn,
+    TResult Function(CheckInPayload payload, List<String> photoPaths)?
+        submitCheckIn,
     TResult Function(CheckOutPayload payload)? submitCheckOut,
     TResult Function()? syncOfflineData,
     required TResult orElse(),
@@ -86,7 +89,7 @@ abstract class _$$SubmitCheckInImplCopyWith<$Res> {
           _$SubmitCheckInImpl value, $Res Function(_$SubmitCheckInImpl) then) =
       __$$SubmitCheckInImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({CheckInPayload payload});
+  $Res call({CheckInPayload payload, List<String> photoPaths});
 
   $CheckInPayloadCopyWith<$Res> get payload;
 }
@@ -103,12 +106,17 @@ class __$$SubmitCheckInImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? payload = null,
+    Object? photoPaths = null,
   }) {
     return _then(_$SubmitCheckInImpl(
       null == payload
           ? _value.payload
           : payload // ignore: cast_nullable_to_non_nullable
               as CheckInPayload,
+      photoPaths: null == photoPaths
+          ? _value._photoPaths
+          : photoPaths // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 
@@ -124,14 +132,24 @@ class __$$SubmitCheckInImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SubmitCheckInImpl implements _SubmitCheckIn {
-  const _$SubmitCheckInImpl(this.payload);
+  const _$SubmitCheckInImpl(this.payload,
+      {final List<String> photoPaths = const []})
+      : _photoPaths = photoPaths;
 
   @override
   final CheckInPayload payload;
+  final List<String> _photoPaths;
+  @override
+  @JsonKey()
+  List<String> get photoPaths {
+    if (_photoPaths is EqualUnmodifiableListView) return _photoPaths;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_photoPaths);
+  }
 
   @override
   String toString() {
-    return 'VisitEvent.submitCheckIn(payload: $payload)';
+    return 'VisitEvent.submitCheckIn(payload: $payload, photoPaths: $photoPaths)';
   }
 
   @override
@@ -139,11 +157,14 @@ class _$SubmitCheckInImpl implements _SubmitCheckIn {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SubmitCheckInImpl &&
-            (identical(other.payload, payload) || other.payload == payload));
+            (identical(other.payload, payload) || other.payload == payload) &&
+            const DeepCollectionEquality()
+                .equals(other._photoPaths, _photoPaths));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, payload);
+  int get hashCode => Object.hash(
+      runtimeType, payload, const DeepCollectionEquality().hash(_photoPaths));
 
   @JsonKey(ignore: true)
   @override
@@ -154,33 +175,36 @@ class _$SubmitCheckInImpl implements _SubmitCheckIn {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CheckInPayload payload) submitCheckIn,
+    required TResult Function(CheckInPayload payload, List<String> photoPaths)
+        submitCheckIn,
     required TResult Function(CheckOutPayload payload) submitCheckOut,
     required TResult Function() syncOfflineData,
   }) {
-    return submitCheckIn(payload);
+    return submitCheckIn(payload, photoPaths);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CheckInPayload payload)? submitCheckIn,
+    TResult? Function(CheckInPayload payload, List<String> photoPaths)?
+        submitCheckIn,
     TResult? Function(CheckOutPayload payload)? submitCheckOut,
     TResult? Function()? syncOfflineData,
   }) {
-    return submitCheckIn?.call(payload);
+    return submitCheckIn?.call(payload, photoPaths);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CheckInPayload payload)? submitCheckIn,
+    TResult Function(CheckInPayload payload, List<String> photoPaths)?
+        submitCheckIn,
     TResult Function(CheckOutPayload payload)? submitCheckOut,
     TResult Function()? syncOfflineData,
     required TResult orElse(),
   }) {
     if (submitCheckIn != null) {
-      return submitCheckIn(payload);
+      return submitCheckIn(payload, photoPaths);
     }
     return orElse();
   }
@@ -221,10 +245,11 @@ class _$SubmitCheckInImpl implements _SubmitCheckIn {
 }
 
 abstract class _SubmitCheckIn implements VisitEvent {
-  const factory _SubmitCheckIn(final CheckInPayload payload) =
-      _$SubmitCheckInImpl;
+  const factory _SubmitCheckIn(final CheckInPayload payload,
+      {final List<String> photoPaths}) = _$SubmitCheckInImpl;
 
   CheckInPayload get payload;
+  List<String> get photoPaths;
   @JsonKey(ignore: true)
   _$$SubmitCheckInImplCopyWith<_$SubmitCheckInImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -305,7 +330,8 @@ class _$SubmitCheckOutImpl implements _SubmitCheckOut {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CheckInPayload payload) submitCheckIn,
+    required TResult Function(CheckInPayload payload, List<String> photoPaths)
+        submitCheckIn,
     required TResult Function(CheckOutPayload payload) submitCheckOut,
     required TResult Function() syncOfflineData,
   }) {
@@ -315,7 +341,8 @@ class _$SubmitCheckOutImpl implements _SubmitCheckOut {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CheckInPayload payload)? submitCheckIn,
+    TResult? Function(CheckInPayload payload, List<String> photoPaths)?
+        submitCheckIn,
     TResult? Function(CheckOutPayload payload)? submitCheckOut,
     TResult? Function()? syncOfflineData,
   }) {
@@ -325,7 +352,8 @@ class _$SubmitCheckOutImpl implements _SubmitCheckOut {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CheckInPayload payload)? submitCheckIn,
+    TResult Function(CheckInPayload payload, List<String> photoPaths)?
+        submitCheckIn,
     TResult Function(CheckOutPayload payload)? submitCheckOut,
     TResult Function()? syncOfflineData,
     required TResult orElse(),
@@ -419,7 +447,8 @@ class _$SyncOfflineDataImpl implements _SyncOfflineData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CheckInPayload payload) submitCheckIn,
+    required TResult Function(CheckInPayload payload, List<String> photoPaths)
+        submitCheckIn,
     required TResult Function(CheckOutPayload payload) submitCheckOut,
     required TResult Function() syncOfflineData,
   }) {
@@ -429,7 +458,8 @@ class _$SyncOfflineDataImpl implements _SyncOfflineData {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CheckInPayload payload)? submitCheckIn,
+    TResult? Function(CheckInPayload payload, List<String> photoPaths)?
+        submitCheckIn,
     TResult? Function(CheckOutPayload payload)? submitCheckOut,
     TResult? Function()? syncOfflineData,
   }) {
@@ -439,7 +469,8 @@ class _$SyncOfflineDataImpl implements _SyncOfflineData {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CheckInPayload payload)? submitCheckIn,
+    TResult Function(CheckInPayload payload, List<String> photoPaths)?
+        submitCheckIn,
     TResult Function(CheckOutPayload payload)? submitCheckOut,
     TResult Function()? syncOfflineData,
     required TResult orElse(),

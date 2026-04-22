@@ -9,7 +9,9 @@ class MasterRouteModel with _$MasterRouteModel {
     @JsonKey(name: 'outlet_site_id') required String outletSiteId,
     @JsonKey(name: 'outlet_name') required String outletName,
     @JsonKey(name: 'rute_id') String? ruteId,
-    // Tambahkan field lain jika API backend kamu mengirim data tambahan
+    double? latitude,
+    double? longitude,
+    double? radius,
   }) = _MasterRouteModel;
 
   factory MasterRouteModel.fromJson(Map<String, dynamic> json) =>

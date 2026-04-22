@@ -12,6 +12,9 @@ _$MasterRouteModelImpl _$$MasterRouteModelImplFromJson(
       outletSiteId: json['outlet_site_id'] as String,
       outletName: json['outlet_name'] as String,
       ruteId: json['rute_id'] as String?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      radius: (json['radius'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$MasterRouteModelImplToJson(
@@ -20,4 +23,7 @@ Map<String, dynamic> _$$MasterRouteModelImplToJson(
       'outlet_site_id': instance.outletSiteId,
       'outlet_name': instance.outletName,
       'rute_id': instance.ruteId,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'radius': instance.radius,
     };

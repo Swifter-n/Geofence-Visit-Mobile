@@ -26,6 +26,9 @@ mixin _$MasterRouteModel {
   String get outletName => throw _privateConstructorUsedError;
   @JsonKey(name: 'rute_id')
   String? get ruteId => throw _privateConstructorUsedError;
+  double? get latitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
+  double? get radius => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +45,10 @@ abstract class $MasterRouteModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'outlet_site_id') String outletSiteId,
       @JsonKey(name: 'outlet_name') String outletName,
-      @JsonKey(name: 'rute_id') String? ruteId});
+      @JsonKey(name: 'rute_id') String? ruteId,
+      double? latitude,
+      double? longitude,
+      double? radius});
 }
 
 /// @nodoc
@@ -61,6 +67,9 @@ class _$MasterRouteModelCopyWithImpl<$Res, $Val extends MasterRouteModel>
     Object? outletSiteId = null,
     Object? outletName = null,
     Object? ruteId = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+    Object? radius = freezed,
   }) {
     return _then(_value.copyWith(
       outletSiteId: null == outletSiteId
@@ -75,6 +84,18 @@ class _$MasterRouteModelCopyWithImpl<$Res, $Val extends MasterRouteModel>
           ? _value.ruteId
           : ruteId // ignore: cast_nullable_to_non_nullable
               as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      radius: freezed == radius
+          ? _value.radius
+          : radius // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -90,7 +111,10 @@ abstract class _$$MasterRouteModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'outlet_site_id') String outletSiteId,
       @JsonKey(name: 'outlet_name') String outletName,
-      @JsonKey(name: 'rute_id') String? ruteId});
+      @JsonKey(name: 'rute_id') String? ruteId,
+      double? latitude,
+      double? longitude,
+      double? radius});
 }
 
 /// @nodoc
@@ -107,6 +131,9 @@ class __$$MasterRouteModelImplCopyWithImpl<$Res>
     Object? outletSiteId = null,
     Object? outletName = null,
     Object? ruteId = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+    Object? radius = freezed,
   }) {
     return _then(_$MasterRouteModelImpl(
       outletSiteId: null == outletSiteId
@@ -121,6 +148,18 @@ class __$$MasterRouteModelImplCopyWithImpl<$Res>
           ? _value.ruteId
           : ruteId // ignore: cast_nullable_to_non_nullable
               as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      radius: freezed == radius
+          ? _value.radius
+          : radius // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -131,7 +170,10 @@ class _$MasterRouteModelImpl implements _MasterRouteModel {
   const _$MasterRouteModelImpl(
       {@JsonKey(name: 'outlet_site_id') required this.outletSiteId,
       @JsonKey(name: 'outlet_name') required this.outletName,
-      @JsonKey(name: 'rute_id') this.ruteId});
+      @JsonKey(name: 'rute_id') this.ruteId,
+      this.latitude,
+      this.longitude,
+      this.radius});
 
   factory _$MasterRouteModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MasterRouteModelImplFromJson(json);
@@ -145,10 +187,16 @@ class _$MasterRouteModelImpl implements _MasterRouteModel {
   @override
   @JsonKey(name: 'rute_id')
   final String? ruteId;
+  @override
+  final double? latitude;
+  @override
+  final double? longitude;
+  @override
+  final double? radius;
 
   @override
   String toString() {
-    return 'MasterRouteModel(outletSiteId: $outletSiteId, outletName: $outletName, ruteId: $ruteId)';
+    return 'MasterRouteModel(outletSiteId: $outletSiteId, outletName: $outletName, ruteId: $ruteId, latitude: $latitude, longitude: $longitude, radius: $radius)';
   }
 
   @override
@@ -160,13 +208,18 @@ class _$MasterRouteModelImpl implements _MasterRouteModel {
                 other.outletSiteId == outletSiteId) &&
             (identical(other.outletName, outletName) ||
                 other.outletName == outletName) &&
-            (identical(other.ruteId, ruteId) || other.ruteId == ruteId));
+            (identical(other.ruteId, ruteId) || other.ruteId == ruteId) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
+            (identical(other.radius, radius) || other.radius == radius));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, outletSiteId, outletName, ruteId);
+  int get hashCode => Object.hash(runtimeType, outletSiteId, outletName, ruteId,
+      latitude, longitude, radius);
 
   @JsonKey(ignore: true)
   @override
@@ -187,7 +240,10 @@ abstract class _MasterRouteModel implements MasterRouteModel {
   const factory _MasterRouteModel(
       {@JsonKey(name: 'outlet_site_id') required final String outletSiteId,
       @JsonKey(name: 'outlet_name') required final String outletName,
-      @JsonKey(name: 'rute_id') final String? ruteId}) = _$MasterRouteModelImpl;
+      @JsonKey(name: 'rute_id') final String? ruteId,
+      final double? latitude,
+      final double? longitude,
+      final double? radius}) = _$MasterRouteModelImpl;
 
   factory _MasterRouteModel.fromJson(Map<String, dynamic> json) =
       _$MasterRouteModelImpl.fromJson;
@@ -201,6 +257,12 @@ abstract class _MasterRouteModel implements MasterRouteModel {
   @override
   @JsonKey(name: 'rute_id')
   String? get ruteId;
+  @override
+  double? get latitude;
+  @override
+  double? get longitude;
+  @override
+  double? get radius;
   @override
   @JsonKey(ignore: true)
   _$$MasterRouteModelImplCopyWith<_$MasterRouteModelImpl> get copyWith =>

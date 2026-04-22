@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:geofence_visit_mobile/models/responses/user/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/payloads/login/login_payload.dart';
 import '../network/api_client.dart';
@@ -39,6 +40,23 @@ class AuthRepository {
     }
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('access_token');
+  }
+
+  Future<UserModel> getMe() async {
+    final response = await apiClient.get('me');
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final decoded = jsonDecode(response.body);
+      // Antisipasi jika backend membungkus response dengan key "data"
+      final userData = decoded['data'] ?? decoded;
+
+      return UserModel.fromJson(userData);
+    } else {
+      // 2. Tampilkan pesan asli dari backend untuk mempermudah debugging
+      throw Exception(
+        'Error Server: ${response.statusCode} - ${response.body}',
+      );
+    }
   }
 
   /// Mengecek apakah user sudah login (token ada)

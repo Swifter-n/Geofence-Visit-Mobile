@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             state.maybeWhen(
-              authenticated: () {
+              authenticated: (user) {
                 // Jika sukses dari backend, lempar ke Dashboard
                 Navigator.pushReplacement(
                   context,

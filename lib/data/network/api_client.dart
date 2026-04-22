@@ -54,4 +54,28 @@ class ApiClient {
         .get(url, headers: headers)
         .timeout(const Duration(seconds: 15));
   }
+
+  Future<http.Response> postMultipart(
+    String endpoint,
+    Map<String, String> body,
+    List<String> filePaths,
+  ) async {
+    final headers = await _getHeaders();
+    headers.remove('Content-Type');
+
+    final url = Uri.parse('${Variables.baseUrl}/$endpoint');
+
+    var request = http.MultipartRequest('POST', url);
+    request.headers.addAll(headers);
+    request.fields.addAll(body);
+
+    for (var path in filePaths) {
+      request.files.add(await http.MultipartFile.fromPath('photos[]', path));
+    }
+
+    var streamedResponse = await request.send().timeout(
+      const Duration(seconds: 30),
+    );
+    return await http.Response.fromStream(streamedResponse);
+  }
 }

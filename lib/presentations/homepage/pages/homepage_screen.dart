@@ -1,13 +1,18 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geofence_visit_mobile/presentations/homepage/pages/offline_queue_screen.dart';
+import 'package:geofence_visit_mobile/presentations/homepage/widgets/custom_camera_screen.dart';
 import 'package:geofence_visit_mobile/models/payloads/check_in/check_in_payload.dart';
 import 'package:geofence_visit_mobile/models/payloads/check_out/check_out_payload.dart';
 import 'package:geofence_visit_mobile/models/responses/master_route/master_route_model.dart';
+import 'package:geofence_visit_mobile/models/responses/user/user_model.dart';
 import 'package:geofence_visit_mobile/presentations/auth/bloc/auth/auth_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/auth/pages/login_screen.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/location/location_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/master_data/master_data_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/visit/visit_bloc.dart';
+import 'package:geofence_visit_mobile/presentations/homepage/widgets/outlet_search_bottom_sheet.dart';
 import 'package:geolocator/geolocator.dart';
 
 class HomepageScreen extends StatefulWidget {
@@ -18,11 +23,8 @@ class HomepageScreen extends StatefulWidget {
 }
 
 class _HomepageScreenState extends State<HomepageScreen> {
-  // Variabel penampung pilihan outlet user dari Dropdown
+  List<String> _capturedPhotoPaths = [];
   MasterRouteModel? selectedOutlet;
-
-  // TODO: Nanti ambil dari profile/login response. Sementara kita set default.
-  String userVehicleId = "VHC-001";
 
   @override
   void initState() {
@@ -33,7 +35,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
     context.read<MasterDataBloc>().add(const MasterDataEvent.fetchData());
   }
 
-  void _doCheckIn(Position position) {
+  void _doCheckIn(Position position, UserModel user) {
     if (selectedOutlet == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -46,7 +48,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
     final payload = CheckInPayload(
       latitude: position.latitude,
       longitude: position.longitude,
-      vehicleId: userVehicleId,
+      vehicleId: user.vehicleId?.toString() ?? "0",
       outletSiteId: selectedOutlet!.outletSiteId,
       ruteId: selectedOutlet!.ruteId,
       gpsTime: DateTime.now().toIso8601String(),
@@ -55,7 +57,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
     context.read<VisitBloc>().add(VisitEvent.submitCheckIn(payload));
   }
 
-  void _doCheckOut(Position position) {
+  void _doCheckOut(Position position, UserModel user) {
     if (selectedOutlet == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -68,7 +70,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
     final payload = CheckOutPayload(
       latitude: position.latitude,
       longitude: position.longitude,
-      vehicleId: userVehicleId,
+      vehicleId: user.vehicleId?.toString() ?? "0",
       outletSiteId: selectedOutlet!.outletSiteId,
       gpsTime: DateTime.now().toIso8601String(),
     );
@@ -76,8 +78,55 @@ class _HomepageScreenState extends State<HomepageScreen> {
     context.read<VisitBloc>().add(VisitEvent.submitCheckOut(payload));
   }
 
+  void _showOutletSearchBottomSheet(
+    BuildContext context,
+    List<MasterRouteModel> outlets,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, // Agar bisa full screen saat keyboard muncul
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return OutletSearchBottomSheet(
+          outlets: outlets,
+          onSelected: (outlet) {
+            setState(() {
+              selectedOutlet = outlet;
+            });
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _openCamera() async {
+    final photoPath = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const CustomCameraScreen()),
+    );
+
+    if (photoPath != null && photoPath is String) {
+      if (_capturedPhotoPaths.length < 3) {
+        setState(() {
+          _capturedPhotoPaths.add(photoPath);
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authState = context.watch<AuthBloc>().state;
+    final user = authState.maybeWhen(
+      authenticated: (user) => user,
+      orElse: () => null,
+    );
+
+    if (user == null)
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     return MultiBlocListener(
       listeners: [
         BlocListener<AuthBloc, AuthState>(
@@ -124,6 +173,15 @@ class _HomepageScreenState extends State<HomepageScreen> {
           elevation: 0,
           actions: [
             IconButton(
+              icon: const Icon(Icons.cloud_sync_outlined),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const OfflineQueueScreen()),
+                );
+              },
+            ),
+            IconButton(
               icon: const Icon(Icons.refresh),
               onPressed: () {
                 context.read<LocationBloc>().add(
@@ -156,13 +214,15 @@ class _HomepageScreenState extends State<HomepageScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _buildHeaderSection(),
+                _buildHeaderSection(user),
                 const SizedBox(height: 24),
                 _buildRouteSelection(), // Dropdown Master Data
                 const SizedBox(height: 16),
                 _buildLocationCard(), // Kartu Status GPS
                 const SizedBox(height: 24),
-                _buildActionButtons(), // Tombol In/Out
+                _buildPhotoSection(),
+                const SizedBox(height: 24),
+                _buildActionButtons(user), // Tombol In/Out
               ],
             ),
           ),
@@ -171,24 +231,6 @@ class _HomepageScreenState extends State<HomepageScreen> {
     );
   }
 
-  Widget _buildHeaderSection() {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Halo, Driver',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 4),
-        Text(
-          'Pilih titik visit dan pastikan GPS Anda akurat.',
-          style: TextStyle(fontSize: 16, color: Colors.grey),
-        ),
-      ],
-    );
-  }
-
-  /// Bagian Dropdown Pilihan Outlet dari MasterDataBloc
   Widget _buildRouteSelection() {
     return BlocBuilder<MasterDataBloc, MasterDataState>(
       builder: (context, state) {
@@ -203,7 +245,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Pilih Titik Visit / Outlet',
+                  'Pilih Outlet',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
@@ -220,33 +262,45 @@ class _HomepageScreenState extends State<HomepageScreen> {
                         'Tidak ada jadwal rute/outlet untuk Anda saat ini.',
                       );
                     }
-                    return DropdownButtonFormField<MasterRouteModel>(
-                      value: selectedOutlet,
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
+
+                    // CUSTOM DROPDOWN TRIGGER
+                    return InkWell(
+                      onTap: () =>
+                          _showOutletSearchBottomSheet(context, outlets),
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 16,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade400),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                selectedOutlet != null
+                                    ? '${selectedOutlet!.outletSiteId} - ${selectedOutlet!.outletName}'
+                                    : 'Tap untuk mencari & memilih outlet...',
+                                style: TextStyle(
+                                  color: selectedOutlet != null
+                                      ? Colors.black87
+                                      : Colors.grey.shade600,
+                                  fontSize: 16,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.grey,
+                            ),
+                          ],
                         ),
                       ),
-                      hint: const Text('Tap untuk memilih...'),
-                      items: outlets.map((outlet) {
-                        return DropdownMenuItem(
-                          value: outlet,
-                          child: Text(
-                            '${outlet.outletSiteId} - ${outlet.outletName}',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedOutlet = value;
-                        });
-                      },
                     );
                   },
                   orElse: () => const SizedBox(),
@@ -256,6 +310,77 @@ class _HomepageScreenState extends State<HomepageScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildHeaderSection(UserModel user) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Hi, ${user.name}',
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Siap melakukan visit hari ini?',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPhotoSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Foto Bongkaran',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 10,
+          children: [
+            ..._capturedPhotoPaths.asMap().entries.map((entry) {
+              return Stack(
+                children: [
+                  Image.file(
+                    File(entry.value),
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: () => setState(
+                        () => _capturedPhotoPaths.removeAt(entry.key),
+                      ),
+                      child: const Icon(Icons.cancel, color: Colors.red),
+                    ),
+                  ),
+                ],
+              );
+            }),
+            if (_capturedPhotoPaths.length < 3)
+              GestureDetector(
+                onTap: _openCamera,
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.add_a_photo),
+                ),
+              ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -288,6 +413,24 @@ class _HomepageScreenState extends State<HomepageScreen> {
                     ),
                   ),
                   success: (position, isMocked, accuracy) {
+                    // --- HITUNG JARAK SECARA REALTIME ---
+                    double? distanceInMeters;
+                    bool isOutsideRadius = true;
+
+                    if (selectedOutlet != null &&
+                        selectedOutlet!.latitude != null &&
+                        selectedOutlet!.longitude != null) {
+                      distanceInMeters = Geolocator.distanceBetween(
+                        position.latitude,
+                        position.longitude,
+                        selectedOutlet!.latitude!,
+                        selectedOutlet!.longitude!,
+                      );
+
+                      // Cek apakah jarak saat ini lebih besar dari radius yang diizinkan (default 50 meter jika null)
+                      isOutsideRadius =
+                          distanceInMeters > (selectedOutlet!.radius ?? 50.0);
+                    }
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -321,11 +464,46 @@ class _HomepageScreenState extends State<HomepageScreen> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'Akurasi: ${accuracy.toStringAsFixed(2)} m',
+                              'Akurasi GPS: ${accuracy.toStringAsFixed(2)} m',
                               style: const TextStyle(fontSize: 14),
                             ),
                           ],
                         ),
+
+                        // --- TAMPILAN JARAK KE OUTLET ---
+                        if (selectedOutlet != null &&
+                            distanceInMeters != null) ...[
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Icon(
+                                isOutsideRadius
+                                    ? Icons.location_off
+                                    : Icons.location_on,
+                                size: 20,
+                                color: isOutsideRadius
+                                    ? Colors.red
+                                    : Colors.green,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  'Jarak ke Outlet: ${distanceInMeters.toStringAsFixed(2)} m',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: isOutsideRadius
+                                        ? Colors.red
+                                        : Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+
+                        const SizedBox(height: 8),
+
                         if (isMocked) ...[
                           const SizedBox(height: 8),
                           Container(
@@ -364,7 +542,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons(UserModel user) {
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, locationState) {
         final currentPosition = locationState.maybeWhen(
@@ -375,7 +553,27 @@ class _HomepageScreenState extends State<HomepageScreen> {
           success: (_, mocked, __) => mocked,
           orElse: () => false,
         );
-        final isButtonDisabled = currentPosition == null || isMocked;
+
+        bool isOutsideRadius = true;
+        if (selectedOutlet != null &&
+            currentPosition != null &&
+            selectedOutlet!.latitude != null &&
+            selectedOutlet!.longitude != null) {
+          double distance = Geolocator.distanceBetween(
+            currentPosition.latitude,
+            currentPosition.longitude,
+            selectedOutlet!.latitude!,
+            selectedOutlet!.longitude!,
+          );
+          isOutsideRadius = distance > (selectedOutlet!.radius ?? 50.0);
+        } else if (selectedOutlet == null) {
+          isOutsideRadius = true; // Kunci tombol jika belum pilih outlet
+        } else {
+          isOutsideRadius =
+              false; // Bypass jika data koordinat outlet di master data tidak lengkap
+        }
+        final isButtonDisabled =
+            currentPosition == null || isMocked || isOutsideRadius;
 
         return BlocBuilder<VisitBloc, VisitState>(
           builder: (context, visitState) {
@@ -384,62 +582,86 @@ class _HomepageScreenState extends State<HomepageScreen> {
               orElse: () => false,
             );
 
-            return Row(
+            return Column(
+              // Ganti jadi Column untuk menambahkan pesan warning di atas tombol
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: isButtonDisabled || isSubmitting
-                        ? null
-                        : () => _doCheckIn(currentPosition),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                if (selectedOutlet != null && isOutsideRadius)
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 12.0),
+                    child: Text(
+                      'Anda berada di luar area Geofence. Dekati titik outlet untuk Check-In.',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: isButtonDisabled || isSubmitting
+                            ? null
+                            : () => _doCheckIn(currentPosition, user),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: isSubmitting
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text(
+                                'Check In',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
                       ),
                     ),
-                    child: isSubmitting
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const Text(
-                            'Check In',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: isButtonDisabled || isSubmitting
+                            ? null
+                            : () => _doCheckOut(currentPosition, user),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: isButtonDisabled || isSubmitting
-                        ? null
-                        : () => _doCheckOut(currentPosition),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: isSubmitting
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text(
+                                'Check Out',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
                       ),
                     ),
-                    child: isSubmitting
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const Text(
-                            'Check Out',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                  ),
+                  ],
                 ),
               ],
             );

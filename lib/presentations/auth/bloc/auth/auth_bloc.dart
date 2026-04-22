@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geofence_visit_mobile/models/responses/user/user_model.dart';
 import '../../../../data/repositories/auth_repository.dart';
 import '../../../../models/payloads/login/login_payload.dart';
 
@@ -16,12 +17,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_Logout>(_onLogout);
   }
 
-  Future<void> _onCheckAuthStatus(_CheckAuthStatus event, Emitter<AuthState> emit) async {
-    emit(const AuthState.loading());
+  Future<void> _onCheckAuthStatus(
+    _CheckAuthStatus event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final isAuthenticated = await repository.isAuthenticated();
       if (isAuthenticated) {
-        emit(const AuthState.authenticated());
+        final user = await repository.getMe(); // Ambil profil jika token ada
+        emit(AuthState.authenticated(user));
       } else {
         emit(const AuthState.unauthenticated());
       }
@@ -35,9 +39,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final success = await repository.login(event.payload);
       if (success) {
-        emit(const AuthState.authenticated());
+        final user = await repository
+            .getMe(); // Ambil profil setelah sukses login
+        emit(AuthState.authenticated(user));
       } else {
-        emit(const AuthState.error('Sistem tidak merespon token dengan valid.'));
+        emit(
+          const AuthState.error('Sistem tidak merespon token dengan valid.'),
+        );
       }
     } catch (e) {
       emit(AuthState.error(e.toString().replaceAll('Exception: ', '')));

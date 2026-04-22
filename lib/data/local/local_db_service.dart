@@ -15,7 +15,7 @@ class LocalDbService {
     // Cek apakah instance Isar sudah terbuka agar tidak double connection
     if (Isar.instanceNames.isEmpty) {
       String? path;
-      
+
       // Jika berjalan di platform selain Web (Android/iOS), kita butuh path folder
       if (!kIsWeb) {
         final dir = await getApplicationDocumentsDirectory();
@@ -24,8 +24,8 @@ class LocalDbService {
 
       return await Isar.open(
         [OfflineVisitEntitySchema], // Skema yang akan di-generate
-        directory: path ?? '',      // Web akan menggunakan string kosong
-        inspector: !kReleaseMode,   // Mengaktifkan Isar Inspector saat mode debug
+        directory: path ?? '', // Web akan menggunakan string kosong
+        inspector: !kReleaseMode, // Mengaktifkan Isar Inspector saat mode debug
       );
     }
     return Future.value(Isar.getInstance());
@@ -46,6 +46,16 @@ class LocalDbService {
         .filter()
         .syncStatusEqualTo(0) // Hanya ambil yang pending
         .sortByTimestamp()
+        .findAll();
+  }
+
+  Future<List<OfflineVisitEntity>> getUnsyncedVisits() async {
+    final isar = await db;
+    // Note: 'offlineVisitEntitys' adalah nama default yang di-generate Isar.
+    // Jika error, coba 'offlineVisitEntities' tergantung versi package-mu.
+    return await isar.offlineVisitEntitys
+        .filter()
+        .syncStatusEqualTo(0)
         .findAll();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +13,10 @@ import 'package:geofence_visit_mobile/presentations/homepage/bloc/location/locat
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/master_data/master_data_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/visit/visit_bloc.dart';
 
+late List<CameraDescription> cameras;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
 
   // 1. Inisialisasi Service (Local DB & API)
   final localDb = LocalDbService();

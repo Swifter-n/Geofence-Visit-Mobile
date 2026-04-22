@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
       listener: (context, state) {
         // Menggunakan maybeWhen (dari Freezed) agar lebih rapi
         state.maybeWhen(
-          authenticated: () {
+          authenticated: (user) {
             // Jika token ada, arahkan ke Homepage
             Navigator.pushReplacement(
               context,

@@ -23,7 +23,10 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
   ) async {
     emit(const VisitState.loading());
     try {
-      final isOffline = await repository.submitCheckIn(event.payload);
+      final isOffline = await repository.submitCheckIn(
+        event.payload,
+        event.photoPaths,
+      );
       emit(
         VisitState.success(
           message: isOffline
@@ -62,7 +65,26 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
     _SyncOfflineData event,
     Emitter<VisitState> emit,
   ) async {
-    // Berjalan di background tanpa emit loading agar tidak mengganggu UI user
-    await repository.syncOfflineVisits();
+    emit(const VisitState.loading());
+    try {
+      final successCount = await repository.syncOfflineVisits();
+      if (successCount > 0) {
+        // Anggap pesan sukses ini tidak berstatus offline (false)
+        emit(
+          VisitState.success(
+            message: 'Berhasil sinkronisasi $successCount data antrean!',
+            isOffline: false,
+          ),
+        );
+      } else {
+        emit(
+          const VisitState.error(
+            'Tidak ada data yang diproses. Pastikan antrean tidak kosong.',
+          ),
+        );
+      }
+    } catch (e) {
+      emit(VisitState.error(e.toString().replaceAll('Exception: ', '')));
+    }
   }
 }

@@ -12,8 +12,7 @@ part of 'check_in_payload.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 CheckInPayload _$CheckInPayloadFromJson(Map<String, dynamic> json) {
   return _CheckInPayload.fromJson(json);
@@ -42,12 +41,8 @@ mixin _$CheckInPayload {
   @JsonKey(name: 'gps_time')
   String? get gpsTime => throw _privateConstructorUsedError;
 
-  /// Serializes this CheckInPayload to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of CheckInPayload
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CheckInPayloadCopyWith<CheckInPayload> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,23 +50,21 @@ mixin _$CheckInPayload {
 /// @nodoc
 abstract class $CheckInPayloadCopyWith<$Res> {
   factory $CheckInPayloadCopyWith(
-    CheckInPayload value,
-    $Res Function(CheckInPayload) then,
-  ) = _$CheckInPayloadCopyWithImpl<$Res, CheckInPayload>;
+          CheckInPayload value, $Res Function(CheckInPayload) then) =
+      _$CheckInPayloadCopyWithImpl<$Res, CheckInPayload>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'vehicle_id') String vehicleId,
-    double latitude,
-    double longitude,
-    @JsonKey(name: 'outlet_site_id') String outletSiteId,
-    @JsonKey(name: 'vehicle_alias') String? vehicleAlias,
-    @JsonKey(name: 'rute_id') String? ruteId,
-    @JsonKey(name: 'outlet_name') String? outletName,
-    @JsonKey(name: 'delivery_type') String? deliveryType,
-    @JsonKey(name: 'entry_temp') double? entryTemp,
-    @JsonKey(name: 'exit_temp') double? exitTemp,
-    @JsonKey(name: 'gps_time') String? gpsTime,
-  });
+  $Res call(
+      {@JsonKey(name: 'vehicle_id') String vehicleId,
+      double latitude,
+      double longitude,
+      @JsonKey(name: 'outlet_site_id') String outletSiteId,
+      @JsonKey(name: 'vehicle_alias') String? vehicleAlias,
+      @JsonKey(name: 'rute_id') String? ruteId,
+      @JsonKey(name: 'outlet_name') String? outletName,
+      @JsonKey(name: 'delivery_type') String? deliveryType,
+      @JsonKey(name: 'entry_temp') double? entryTemp,
+      @JsonKey(name: 'exit_temp') double? exitTemp,
+      @JsonKey(name: 'gps_time') String? gpsTime});
 }
 
 /// @nodoc
@@ -84,8 +77,6 @@ class _$CheckInPayloadCopyWithImpl<$Res, $Val extends CheckInPayload>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CheckInPayload
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,80 +92,75 @@ class _$CheckInPayloadCopyWithImpl<$Res, $Val extends CheckInPayload>
     Object? exitTemp = freezed,
     Object? gpsTime = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            vehicleId: null == vehicleId
-                ? _value.vehicleId
-                : vehicleId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            latitude: null == latitude
-                ? _value.latitude
-                : latitude // ignore: cast_nullable_to_non_nullable
-                      as double,
-            longitude: null == longitude
-                ? _value.longitude
-                : longitude // ignore: cast_nullable_to_non_nullable
-                      as double,
-            outletSiteId: null == outletSiteId
-                ? _value.outletSiteId
-                : outletSiteId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            vehicleAlias: freezed == vehicleAlias
-                ? _value.vehicleAlias
-                : vehicleAlias // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            ruteId: freezed == ruteId
-                ? _value.ruteId
-                : ruteId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            outletName: freezed == outletName
-                ? _value.outletName
-                : outletName // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            deliveryType: freezed == deliveryType
-                ? _value.deliveryType
-                : deliveryType // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            entryTemp: freezed == entryTemp
-                ? _value.entryTemp
-                : entryTemp // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            exitTemp: freezed == exitTemp
-                ? _value.exitTemp
-                : exitTemp // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            gpsTime: freezed == gpsTime
-                ? _value.gpsTime
-                : gpsTime // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      vehicleId: null == vehicleId
+          ? _value.vehicleId
+          : vehicleId // ignore: cast_nullable_to_non_nullable
+              as String,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      outletSiteId: null == outletSiteId
+          ? _value.outletSiteId
+          : outletSiteId // ignore: cast_nullable_to_non_nullable
+              as String,
+      vehicleAlias: freezed == vehicleAlias
+          ? _value.vehicleAlias
+          : vehicleAlias // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ruteId: freezed == ruteId
+          ? _value.ruteId
+          : ruteId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      outletName: freezed == outletName
+          ? _value.outletName
+          : outletName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deliveryType: freezed == deliveryType
+          ? _value.deliveryType
+          : deliveryType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      entryTemp: freezed == entryTemp
+          ? _value.entryTemp
+          : entryTemp // ignore: cast_nullable_to_non_nullable
+              as double?,
+      exitTemp: freezed == exitTemp
+          ? _value.exitTemp
+          : exitTemp // ignore: cast_nullable_to_non_nullable
+              as double?,
+      gpsTime: freezed == gpsTime
+          ? _value.gpsTime
+          : gpsTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$CheckInPayloadImplCopyWith<$Res>
     implements $CheckInPayloadCopyWith<$Res> {
-  factory _$$CheckInPayloadImplCopyWith(
-    _$CheckInPayloadImpl value,
-    $Res Function(_$CheckInPayloadImpl) then,
-  ) = __$$CheckInPayloadImplCopyWithImpl<$Res>;
+  factory _$$CheckInPayloadImplCopyWith(_$CheckInPayloadImpl value,
+          $Res Function(_$CheckInPayloadImpl) then) =
+      __$$CheckInPayloadImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'vehicle_id') String vehicleId,
-    double latitude,
-    double longitude,
-    @JsonKey(name: 'outlet_site_id') String outletSiteId,
-    @JsonKey(name: 'vehicle_alias') String? vehicleAlias,
-    @JsonKey(name: 'rute_id') String? ruteId,
-    @JsonKey(name: 'outlet_name') String? outletName,
-    @JsonKey(name: 'delivery_type') String? deliveryType,
-    @JsonKey(name: 'entry_temp') double? entryTemp,
-    @JsonKey(name: 'exit_temp') double? exitTemp,
-    @JsonKey(name: 'gps_time') String? gpsTime,
-  });
+  $Res call(
+      {@JsonKey(name: 'vehicle_id') String vehicleId,
+      double latitude,
+      double longitude,
+      @JsonKey(name: 'outlet_site_id') String outletSiteId,
+      @JsonKey(name: 'vehicle_alias') String? vehicleAlias,
+      @JsonKey(name: 'rute_id') String? ruteId,
+      @JsonKey(name: 'outlet_name') String? outletName,
+      @JsonKey(name: 'delivery_type') String? deliveryType,
+      @JsonKey(name: 'entry_temp') double? entryTemp,
+      @JsonKey(name: 'exit_temp') double? exitTemp,
+      @JsonKey(name: 'gps_time') String? gpsTime});
 }
 
 /// @nodoc
@@ -182,12 +168,9 @@ class __$$CheckInPayloadImplCopyWithImpl<$Res>
     extends _$CheckInPayloadCopyWithImpl<$Res, _$CheckInPayloadImpl>
     implements _$$CheckInPayloadImplCopyWith<$Res> {
   __$$CheckInPayloadImplCopyWithImpl(
-    _$CheckInPayloadImpl _value,
-    $Res Function(_$CheckInPayloadImpl) _then,
-  ) : super(_value, _then);
+      _$CheckInPayloadImpl _value, $Res Function(_$CheckInPayloadImpl) _then)
+      : super(_value, _then);
 
-  /// Create a copy of CheckInPayload
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -203,73 +186,70 @@ class __$$CheckInPayloadImplCopyWithImpl<$Res>
     Object? exitTemp = freezed,
     Object? gpsTime = freezed,
   }) {
-    return _then(
-      _$CheckInPayloadImpl(
-        vehicleId: null == vehicleId
-            ? _value.vehicleId
-            : vehicleId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        latitude: null == latitude
-            ? _value.latitude
-            : latitude // ignore: cast_nullable_to_non_nullable
-                  as double,
-        longitude: null == longitude
-            ? _value.longitude
-            : longitude // ignore: cast_nullable_to_non_nullable
-                  as double,
-        outletSiteId: null == outletSiteId
-            ? _value.outletSiteId
-            : outletSiteId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        vehicleAlias: freezed == vehicleAlias
-            ? _value.vehicleAlias
-            : vehicleAlias // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        ruteId: freezed == ruteId
-            ? _value.ruteId
-            : ruteId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        outletName: freezed == outletName
-            ? _value.outletName
-            : outletName // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        deliveryType: freezed == deliveryType
-            ? _value.deliveryType
-            : deliveryType // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        entryTemp: freezed == entryTemp
-            ? _value.entryTemp
-            : entryTemp // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        exitTemp: freezed == exitTemp
-            ? _value.exitTemp
-            : exitTemp // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        gpsTime: freezed == gpsTime
-            ? _value.gpsTime
-            : gpsTime // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$CheckInPayloadImpl(
+      vehicleId: null == vehicleId
+          ? _value.vehicleId
+          : vehicleId // ignore: cast_nullable_to_non_nullable
+              as String,
+      latitude: null == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      longitude: null == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double,
+      outletSiteId: null == outletSiteId
+          ? _value.outletSiteId
+          : outletSiteId // ignore: cast_nullable_to_non_nullable
+              as String,
+      vehicleAlias: freezed == vehicleAlias
+          ? _value.vehicleAlias
+          : vehicleAlias // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ruteId: freezed == ruteId
+          ? _value.ruteId
+          : ruteId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      outletName: freezed == outletName
+          ? _value.outletName
+          : outletName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deliveryType: freezed == deliveryType
+          ? _value.deliveryType
+          : deliveryType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      entryTemp: freezed == entryTemp
+          ? _value.entryTemp
+          : entryTemp // ignore: cast_nullable_to_non_nullable
+              as double?,
+      exitTemp: freezed == exitTemp
+          ? _value.exitTemp
+          : exitTemp // ignore: cast_nullable_to_non_nullable
+              as double?,
+      gpsTime: freezed == gpsTime
+          ? _value.gpsTime
+          : gpsTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$CheckInPayloadImpl implements _CheckInPayload {
-  const _$CheckInPayloadImpl({
-    @JsonKey(name: 'vehicle_id') required this.vehicleId,
-    required this.latitude,
-    required this.longitude,
-    @JsonKey(name: 'outlet_site_id') required this.outletSiteId,
-    @JsonKey(name: 'vehicle_alias') this.vehicleAlias,
-    @JsonKey(name: 'rute_id') this.ruteId,
-    @JsonKey(name: 'outlet_name') this.outletName,
-    @JsonKey(name: 'delivery_type') this.deliveryType,
-    @JsonKey(name: 'entry_temp') this.entryTemp,
-    @JsonKey(name: 'exit_temp') this.exitTemp,
-    @JsonKey(name: 'gps_time') this.gpsTime,
-  });
+  const _$CheckInPayloadImpl(
+      {@JsonKey(name: 'vehicle_id') required this.vehicleId,
+      required this.latitude,
+      required this.longitude,
+      @JsonKey(name: 'outlet_site_id') required this.outletSiteId,
+      @JsonKey(name: 'vehicle_alias') this.vehicleAlias,
+      @JsonKey(name: 'rute_id') this.ruteId,
+      @JsonKey(name: 'outlet_name') this.outletName,
+      @JsonKey(name: 'delivery_type') this.deliveryType,
+      @JsonKey(name: 'entry_temp') this.entryTemp,
+      @JsonKey(name: 'exit_temp') this.exitTemp,
+      @JsonKey(name: 'gps_time') this.gpsTime});
 
   factory _$CheckInPayloadImpl.fromJson(Map<String, dynamic> json) =>
       _$$CheckInPayloadImplFromJson(json);
@@ -338,54 +318,50 @@ class _$CheckInPayloadImpl implements _CheckInPayload {
             (identical(other.gpsTime, gpsTime) || other.gpsTime == gpsTime));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    vehicleId,
-    latitude,
-    longitude,
-    outletSiteId,
-    vehicleAlias,
-    ruteId,
-    outletName,
-    deliveryType,
-    entryTemp,
-    exitTemp,
-    gpsTime,
-  );
+      runtimeType,
+      vehicleId,
+      latitude,
+      longitude,
+      outletSiteId,
+      vehicleAlias,
+      ruteId,
+      outletName,
+      deliveryType,
+      entryTemp,
+      exitTemp,
+      gpsTime);
 
-  /// Create a copy of CheckInPayload
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CheckInPayloadImplCopyWith<_$CheckInPayloadImpl> get copyWith =>
       __$$CheckInPayloadImplCopyWithImpl<_$CheckInPayloadImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CheckInPayloadImplToJson(this);
+    return _$$CheckInPayloadImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _CheckInPayload implements CheckInPayload {
-  const factory _CheckInPayload({
-    @JsonKey(name: 'vehicle_id') required final String vehicleId,
-    required final double latitude,
-    required final double longitude,
-    @JsonKey(name: 'outlet_site_id') required final String outletSiteId,
-    @JsonKey(name: 'vehicle_alias') final String? vehicleAlias,
-    @JsonKey(name: 'rute_id') final String? ruteId,
-    @JsonKey(name: 'outlet_name') final String? outletName,
-    @JsonKey(name: 'delivery_type') final String? deliveryType,
-    @JsonKey(name: 'entry_temp') final double? entryTemp,
-    @JsonKey(name: 'exit_temp') final double? exitTemp,
-    @JsonKey(name: 'gps_time') final String? gpsTime,
-  }) = _$CheckInPayloadImpl;
+  const factory _CheckInPayload(
+      {@JsonKey(name: 'vehicle_id') required final String vehicleId,
+      required final double latitude,
+      required final double longitude,
+      @JsonKey(name: 'outlet_site_id') required final String outletSiteId,
+      @JsonKey(name: 'vehicle_alias') final String? vehicleAlias,
+      @JsonKey(name: 'rute_id') final String? ruteId,
+      @JsonKey(name: 'outlet_name') final String? outletName,
+      @JsonKey(name: 'delivery_type') final String? deliveryType,
+      @JsonKey(name: 'entry_temp') final double? entryTemp,
+      @JsonKey(name: 'exit_temp') final double? exitTemp,
+      @JsonKey(name: 'gps_time') final String? gpsTime}) = _$CheckInPayloadImpl;
 
   factory _CheckInPayload.fromJson(Map<String, dynamic> json) =
       _$CheckInPayloadImpl.fromJson;
@@ -421,11 +397,8 @@ abstract class _CheckInPayload implements CheckInPayload {
   @override
   @JsonKey(name: 'gps_time')
   String? get gpsTime;
-
-  /// Create a copy of CheckInPayload
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CheckInPayloadImplCopyWith<_$CheckInPayloadImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

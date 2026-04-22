@@ -22,17 +22,17 @@ _$CheckInPayloadImpl _$$CheckInPayloadImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$CheckInPayloadImplToJson(
-  _$CheckInPayloadImpl instance,
-) => <String, dynamic>{
-  'vehicle_id': instance.vehicleId,
-  'latitude': instance.latitude,
-  'longitude': instance.longitude,
-  'outlet_site_id': instance.outletSiteId,
-  'vehicle_alias': instance.vehicleAlias,
-  'rute_id': instance.ruteId,
-  'outlet_name': instance.outletName,
-  'delivery_type': instance.deliveryType,
-  'entry_temp': instance.entryTemp,
-  'exit_temp': instance.exitTemp,
-  'gps_time': instance.gpsTime,
-};
+        _$CheckInPayloadImpl instance) =>
+    <String, dynamic>{
+      'vehicle_id': instance.vehicleId,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'outlet_site_id': instance.outletSiteId,
+      'vehicle_alias': instance.vehicleAlias,
+      'rute_id': instance.ruteId,
+      'outlet_name': instance.outletName,
+      'delivery_type': instance.deliveryType,
+      'entry_temp': instance.entryTemp,
+      'exit_temp': instance.exitTemp,
+      'gps_time': instance.gpsTime,
+    };

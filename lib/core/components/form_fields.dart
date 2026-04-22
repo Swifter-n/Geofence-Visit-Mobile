@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../constants/colors.dart';
-import '../constants/text_styles.dart';
+import 'package:geofence_visit_mobile/core/constants/colors.dart';
+import 'package:geofence_visit_mobile/core/constants/text_styles.dart';
 
 class AppTextField extends StatelessWidget {
   final String label;
@@ -39,7 +39,7 @@ class AppTextField extends StatelessWidget {
             hintText: hint,
             prefixIcon: prefixIcon,
             filled: true,
-            fillColor: AppColors.background,
+            fillColor: AppColors.neutral,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
               borderSide: BorderSide.none,

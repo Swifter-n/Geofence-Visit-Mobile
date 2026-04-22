@@ -12,8 +12,7 @@ part of 'geofence_visit_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 GeofenceVisitModel _$GeofenceVisitModelFromJson(Map<String, dynamic> json) {
   return _GeofenceVisitModel.fromJson(json);
@@ -60,12 +59,8 @@ mixin _$GeofenceVisitModel {
   @JsonKey(name: 'updated_at')
   String? get updatedAt => throw _privateConstructorUsedError;
 
-  /// Serializes this GeofenceVisitModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of GeofenceVisitModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $GeofenceVisitModelCopyWith<GeofenceVisitModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -73,32 +68,30 @@ mixin _$GeofenceVisitModel {
 /// @nodoc
 abstract class $GeofenceVisitModelCopyWith<$Res> {
   factory $GeofenceVisitModelCopyWith(
-    GeofenceVisitModel value,
-    $Res Function(GeofenceVisitModel) then,
-  ) = _$GeofenceVisitModelCopyWithImpl<$Res, GeofenceVisitModel>;
+          GeofenceVisitModel value, $Res Function(GeofenceVisitModel) then) =
+      _$GeofenceVisitModelCopyWithImpl<$Res, GeofenceVisitModel>;
   @useResult
-  $Res call({
-    int id,
-    @JsonKey(name: 'vehicle_id') String vehicleId,
-    @JsonKey(name: 'vehicle_alias') String vehicleAlias,
-    @JsonKey(name: 'rute_id') String ruteId,
-    @JsonKey(name: 'gps_time') String? gpsTime,
-    @JsonKey(name: 'outlet_site_id') String outletSiteId,
-    @JsonKey(name: 'outlet_name') String outletName,
-    @JsonKey(name: 'delivery_type') String? deliveryType,
-    @JsonKey(name: 'is_valid_schedule') bool isValidSchedule,
-    @JsonKey(name: 'entry_time') String entryTime,
-    @JsonKey(name: 'exit_time') String? exitTime,
-    @JsonKey(name: 'entry_temp') double entryTemp,
-    @JsonKey(name: 'exit_temp') double exitTemp,
-    @JsonKey(name: 'entry_dist_m') double entryDistM,
-    @JsonKey(name: 'min_dist_m') double minDistM,
-    @JsonKey(name: 'duration_min') int durationMin,
-    String status,
-    @JsonKey(name: 'is_mobile') bool isMobile,
-    @JsonKey(name: 'created_at') String? createdAt,
-    @JsonKey(name: 'updated_at') String? updatedAt,
-  });
+  $Res call(
+      {int id,
+      @JsonKey(name: 'vehicle_id') String vehicleId,
+      @JsonKey(name: 'vehicle_alias') String vehicleAlias,
+      @JsonKey(name: 'rute_id') String ruteId,
+      @JsonKey(name: 'gps_time') String? gpsTime,
+      @JsonKey(name: 'outlet_site_id') String outletSiteId,
+      @JsonKey(name: 'outlet_name') String outletName,
+      @JsonKey(name: 'delivery_type') String? deliveryType,
+      @JsonKey(name: 'is_valid_schedule') bool isValidSchedule,
+      @JsonKey(name: 'entry_time') String entryTime,
+      @JsonKey(name: 'exit_time') String? exitTime,
+      @JsonKey(name: 'entry_temp') double entryTemp,
+      @JsonKey(name: 'exit_temp') double exitTemp,
+      @JsonKey(name: 'entry_dist_m') double entryDistM,
+      @JsonKey(name: 'min_dist_m') double minDistM,
+      @JsonKey(name: 'duration_min') int durationMin,
+      String status,
+      @JsonKey(name: 'is_mobile') bool isMobile,
+      @JsonKey(name: 'created_at') String? createdAt,
+      @JsonKey(name: 'updated_at') String? updatedAt});
 }
 
 /// @nodoc
@@ -111,8 +104,6 @@ class _$GeofenceVisitModelCopyWithImpl<$Res, $Val extends GeofenceVisitModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GeofenceVisitModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,138 +128,130 @@ class _$GeofenceVisitModelCopyWithImpl<$Res, $Val extends GeofenceVisitModel>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as int,
-            vehicleId: null == vehicleId
-                ? _value.vehicleId
-                : vehicleId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            vehicleAlias: null == vehicleAlias
-                ? _value.vehicleAlias
-                : vehicleAlias // ignore: cast_nullable_to_non_nullable
-                      as String,
-            ruteId: null == ruteId
-                ? _value.ruteId
-                : ruteId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            gpsTime: freezed == gpsTime
-                ? _value.gpsTime
-                : gpsTime // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            outletSiteId: null == outletSiteId
-                ? _value.outletSiteId
-                : outletSiteId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            outletName: null == outletName
-                ? _value.outletName
-                : outletName // ignore: cast_nullable_to_non_nullable
-                      as String,
-            deliveryType: freezed == deliveryType
-                ? _value.deliveryType
-                : deliveryType // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            isValidSchedule: null == isValidSchedule
-                ? _value.isValidSchedule
-                : isValidSchedule // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            entryTime: null == entryTime
-                ? _value.entryTime
-                : entryTime // ignore: cast_nullable_to_non_nullable
-                      as String,
-            exitTime: freezed == exitTime
-                ? _value.exitTime
-                : exitTime // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            entryTemp: null == entryTemp
-                ? _value.entryTemp
-                : entryTemp // ignore: cast_nullable_to_non_nullable
-                      as double,
-            exitTemp: null == exitTemp
-                ? _value.exitTemp
-                : exitTemp // ignore: cast_nullable_to_non_nullable
-                      as double,
-            entryDistM: null == entryDistM
-                ? _value.entryDistM
-                : entryDistM // ignore: cast_nullable_to_non_nullable
-                      as double,
-            minDistM: null == minDistM
-                ? _value.minDistM
-                : minDistM // ignore: cast_nullable_to_non_nullable
-                      as double,
-            durationMin: null == durationMin
-                ? _value.durationMin
-                : durationMin // ignore: cast_nullable_to_non_nullable
-                      as int,
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as String,
-            isMobile: null == isMobile
-                ? _value.isMobile
-                : isMobile // ignore: cast_nullable_to_non_nullable
-                      as bool,
-            createdAt: freezed == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            updatedAt: freezed == updatedAt
-                ? _value.updatedAt
-                : updatedAt // ignore: cast_nullable_to_non_nullable
-                      as String?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      vehicleId: null == vehicleId
+          ? _value.vehicleId
+          : vehicleId // ignore: cast_nullable_to_non_nullable
+              as String,
+      vehicleAlias: null == vehicleAlias
+          ? _value.vehicleAlias
+          : vehicleAlias // ignore: cast_nullable_to_non_nullable
+              as String,
+      ruteId: null == ruteId
+          ? _value.ruteId
+          : ruteId // ignore: cast_nullable_to_non_nullable
+              as String,
+      gpsTime: freezed == gpsTime
+          ? _value.gpsTime
+          : gpsTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      outletSiteId: null == outletSiteId
+          ? _value.outletSiteId
+          : outletSiteId // ignore: cast_nullable_to_non_nullable
+              as String,
+      outletName: null == outletName
+          ? _value.outletName
+          : outletName // ignore: cast_nullable_to_non_nullable
+              as String,
+      deliveryType: freezed == deliveryType
+          ? _value.deliveryType
+          : deliveryType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isValidSchedule: null == isValidSchedule
+          ? _value.isValidSchedule
+          : isValidSchedule // ignore: cast_nullable_to_non_nullable
+              as bool,
+      entryTime: null == entryTime
+          ? _value.entryTime
+          : entryTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      exitTime: freezed == exitTime
+          ? _value.exitTime
+          : exitTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      entryTemp: null == entryTemp
+          ? _value.entryTemp
+          : entryTemp // ignore: cast_nullable_to_non_nullable
+              as double,
+      exitTemp: null == exitTemp
+          ? _value.exitTemp
+          : exitTemp // ignore: cast_nullable_to_non_nullable
+              as double,
+      entryDistM: null == entryDistM
+          ? _value.entryDistM
+          : entryDistM // ignore: cast_nullable_to_non_nullable
+              as double,
+      minDistM: null == minDistM
+          ? _value.minDistM
+          : minDistM // ignore: cast_nullable_to_non_nullable
+              as double,
+      durationMin: null == durationMin
+          ? _value.durationMin
+          : durationMin // ignore: cast_nullable_to_non_nullable
+              as int,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+      isMobile: null == isMobile
+          ? _value.isMobile
+          : isMobile // ignore: cast_nullable_to_non_nullable
+              as bool,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$GeofenceVisitModelImplCopyWith<$Res>
     implements $GeofenceVisitModelCopyWith<$Res> {
-  factory _$$GeofenceVisitModelImplCopyWith(
-    _$GeofenceVisitModelImpl value,
-    $Res Function(_$GeofenceVisitModelImpl) then,
-  ) = __$$GeofenceVisitModelImplCopyWithImpl<$Res>;
+  factory _$$GeofenceVisitModelImplCopyWith(_$GeofenceVisitModelImpl value,
+          $Res Function(_$GeofenceVisitModelImpl) then) =
+      __$$GeofenceVisitModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    int id,
-    @JsonKey(name: 'vehicle_id') String vehicleId,
-    @JsonKey(name: 'vehicle_alias') String vehicleAlias,
-    @JsonKey(name: 'rute_id') String ruteId,
-    @JsonKey(name: 'gps_time') String? gpsTime,
-    @JsonKey(name: 'outlet_site_id') String outletSiteId,
-    @JsonKey(name: 'outlet_name') String outletName,
-    @JsonKey(name: 'delivery_type') String? deliveryType,
-    @JsonKey(name: 'is_valid_schedule') bool isValidSchedule,
-    @JsonKey(name: 'entry_time') String entryTime,
-    @JsonKey(name: 'exit_time') String? exitTime,
-    @JsonKey(name: 'entry_temp') double entryTemp,
-    @JsonKey(name: 'exit_temp') double exitTemp,
-    @JsonKey(name: 'entry_dist_m') double entryDistM,
-    @JsonKey(name: 'min_dist_m') double minDistM,
-    @JsonKey(name: 'duration_min') int durationMin,
-    String status,
-    @JsonKey(name: 'is_mobile') bool isMobile,
-    @JsonKey(name: 'created_at') String? createdAt,
-    @JsonKey(name: 'updated_at') String? updatedAt,
-  });
+  $Res call(
+      {int id,
+      @JsonKey(name: 'vehicle_id') String vehicleId,
+      @JsonKey(name: 'vehicle_alias') String vehicleAlias,
+      @JsonKey(name: 'rute_id') String ruteId,
+      @JsonKey(name: 'gps_time') String? gpsTime,
+      @JsonKey(name: 'outlet_site_id') String outletSiteId,
+      @JsonKey(name: 'outlet_name') String outletName,
+      @JsonKey(name: 'delivery_type') String? deliveryType,
+      @JsonKey(name: 'is_valid_schedule') bool isValidSchedule,
+      @JsonKey(name: 'entry_time') String entryTime,
+      @JsonKey(name: 'exit_time') String? exitTime,
+      @JsonKey(name: 'entry_temp') double entryTemp,
+      @JsonKey(name: 'exit_temp') double exitTemp,
+      @JsonKey(name: 'entry_dist_m') double entryDistM,
+      @JsonKey(name: 'min_dist_m') double minDistM,
+      @JsonKey(name: 'duration_min') int durationMin,
+      String status,
+      @JsonKey(name: 'is_mobile') bool isMobile,
+      @JsonKey(name: 'created_at') String? createdAt,
+      @JsonKey(name: 'updated_at') String? updatedAt});
 }
 
 /// @nodoc
 class __$$GeofenceVisitModelImplCopyWithImpl<$Res>
     extends _$GeofenceVisitModelCopyWithImpl<$Res, _$GeofenceVisitModelImpl>
     implements _$$GeofenceVisitModelImplCopyWith<$Res> {
-  __$$GeofenceVisitModelImplCopyWithImpl(
-    _$GeofenceVisitModelImpl _value,
-    $Res Function(_$GeofenceVisitModelImpl) _then,
-  ) : super(_value, _then);
+  __$$GeofenceVisitModelImplCopyWithImpl(_$GeofenceVisitModelImpl _value,
+      $Res Function(_$GeofenceVisitModelImpl) _then)
+      : super(_value, _then);
 
-  /// Create a copy of GeofenceVisitModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -293,118 +276,115 @@ class __$$GeofenceVisitModelImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
-    return _then(
-      _$GeofenceVisitModelImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as int,
-        vehicleId: null == vehicleId
-            ? _value.vehicleId
-            : vehicleId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        vehicleAlias: null == vehicleAlias
-            ? _value.vehicleAlias
-            : vehicleAlias // ignore: cast_nullable_to_non_nullable
-                  as String,
-        ruteId: null == ruteId
-            ? _value.ruteId
-            : ruteId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        gpsTime: freezed == gpsTime
-            ? _value.gpsTime
-            : gpsTime // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        outletSiteId: null == outletSiteId
-            ? _value.outletSiteId
-            : outletSiteId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        outletName: null == outletName
-            ? _value.outletName
-            : outletName // ignore: cast_nullable_to_non_nullable
-                  as String,
-        deliveryType: freezed == deliveryType
-            ? _value.deliveryType
-            : deliveryType // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        isValidSchedule: null == isValidSchedule
-            ? _value.isValidSchedule
-            : isValidSchedule // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        entryTime: null == entryTime
-            ? _value.entryTime
-            : entryTime // ignore: cast_nullable_to_non_nullable
-                  as String,
-        exitTime: freezed == exitTime
-            ? _value.exitTime
-            : exitTime // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        entryTemp: null == entryTemp
-            ? _value.entryTemp
-            : entryTemp // ignore: cast_nullable_to_non_nullable
-                  as double,
-        exitTemp: null == exitTemp
-            ? _value.exitTemp
-            : exitTemp // ignore: cast_nullable_to_non_nullable
-                  as double,
-        entryDistM: null == entryDistM
-            ? _value.entryDistM
-            : entryDistM // ignore: cast_nullable_to_non_nullable
-                  as double,
-        minDistM: null == minDistM
-            ? _value.minDistM
-            : minDistM // ignore: cast_nullable_to_non_nullable
-                  as double,
-        durationMin: null == durationMin
-            ? _value.durationMin
-            : durationMin // ignore: cast_nullable_to_non_nullable
-                  as int,
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as String,
-        isMobile: null == isMobile
-            ? _value.isMobile
-            : isMobile // ignore: cast_nullable_to_non_nullable
-                  as bool,
-        createdAt: freezed == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        updatedAt: freezed == updatedAt
-            ? _value.updatedAt
-            : updatedAt // ignore: cast_nullable_to_non_nullable
-                  as String?,
-      ),
-    );
+    return _then(_$GeofenceVisitModelImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      vehicleId: null == vehicleId
+          ? _value.vehicleId
+          : vehicleId // ignore: cast_nullable_to_non_nullable
+              as String,
+      vehicleAlias: null == vehicleAlias
+          ? _value.vehicleAlias
+          : vehicleAlias // ignore: cast_nullable_to_non_nullable
+              as String,
+      ruteId: null == ruteId
+          ? _value.ruteId
+          : ruteId // ignore: cast_nullable_to_non_nullable
+              as String,
+      gpsTime: freezed == gpsTime
+          ? _value.gpsTime
+          : gpsTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      outletSiteId: null == outletSiteId
+          ? _value.outletSiteId
+          : outletSiteId // ignore: cast_nullable_to_non_nullable
+              as String,
+      outletName: null == outletName
+          ? _value.outletName
+          : outletName // ignore: cast_nullable_to_non_nullable
+              as String,
+      deliveryType: freezed == deliveryType
+          ? _value.deliveryType
+          : deliveryType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isValidSchedule: null == isValidSchedule
+          ? _value.isValidSchedule
+          : isValidSchedule // ignore: cast_nullable_to_non_nullable
+              as bool,
+      entryTime: null == entryTime
+          ? _value.entryTime
+          : entryTime // ignore: cast_nullable_to_non_nullable
+              as String,
+      exitTime: freezed == exitTime
+          ? _value.exitTime
+          : exitTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      entryTemp: null == entryTemp
+          ? _value.entryTemp
+          : entryTemp // ignore: cast_nullable_to_non_nullable
+              as double,
+      exitTemp: null == exitTemp
+          ? _value.exitTemp
+          : exitTemp // ignore: cast_nullable_to_non_nullable
+              as double,
+      entryDistM: null == entryDistM
+          ? _value.entryDistM
+          : entryDistM // ignore: cast_nullable_to_non_nullable
+              as double,
+      minDistM: null == minDistM
+          ? _value.minDistM
+          : minDistM // ignore: cast_nullable_to_non_nullable
+              as double,
+      durationMin: null == durationMin
+          ? _value.durationMin
+          : durationMin // ignore: cast_nullable_to_non_nullable
+              as int,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String,
+      isMobile: null == isMobile
+          ? _value.isMobile
+          : isMobile // ignore: cast_nullable_to_non_nullable
+              as bool,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$GeofenceVisitModelImpl implements _GeofenceVisitModel {
-  const _$GeofenceVisitModelImpl({
-    required this.id,
-    @JsonKey(name: 'vehicle_id') required this.vehicleId,
-    @JsonKey(name: 'vehicle_alias') required this.vehicleAlias,
-    @JsonKey(name: 'rute_id') required this.ruteId,
-    @JsonKey(name: 'gps_time') required this.gpsTime,
-    @JsonKey(name: 'outlet_site_id') required this.outletSiteId,
-    @JsonKey(name: 'outlet_name') required this.outletName,
-    @JsonKey(name: 'delivery_type') required this.deliveryType,
-    @JsonKey(name: 'is_valid_schedule') required this.isValidSchedule,
-    @JsonKey(name: 'entry_time') required this.entryTime,
-    @JsonKey(name: 'exit_time') required this.exitTime,
-    @JsonKey(name: 'entry_temp') required this.entryTemp,
-    @JsonKey(name: 'exit_temp') required this.exitTemp,
-    @JsonKey(name: 'entry_dist_m') required this.entryDistM,
-    @JsonKey(name: 'min_dist_m') required this.minDistM,
-    @JsonKey(name: 'duration_min') required this.durationMin,
-    required this.status,
-    @JsonKey(name: 'is_mobile') required this.isMobile,
-    @JsonKey(name: 'created_at') required this.createdAt,
-    @JsonKey(name: 'updated_at') required this.updatedAt,
-  });
+  const _$GeofenceVisitModelImpl(
+      {required this.id,
+      @JsonKey(name: 'vehicle_id') required this.vehicleId,
+      @JsonKey(name: 'vehicle_alias') required this.vehicleAlias,
+      @JsonKey(name: 'rute_id') required this.ruteId,
+      @JsonKey(name: 'gps_time') required this.gpsTime,
+      @JsonKey(name: 'outlet_site_id') required this.outletSiteId,
+      @JsonKey(name: 'outlet_name') required this.outletName,
+      @JsonKey(name: 'delivery_type') required this.deliveryType,
+      @JsonKey(name: 'is_valid_schedule') required this.isValidSchedule,
+      @JsonKey(name: 'entry_time') required this.entryTime,
+      @JsonKey(name: 'exit_time') required this.exitTime,
+      @JsonKey(name: 'entry_temp') required this.entryTemp,
+      @JsonKey(name: 'exit_temp') required this.exitTemp,
+      @JsonKey(name: 'entry_dist_m') required this.entryDistM,
+      @JsonKey(name: 'min_dist_m') required this.minDistM,
+      @JsonKey(name: 'duration_min') required this.durationMin,
+      required this.status,
+      @JsonKey(name: 'is_mobile') required this.isMobile,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt});
 
   factory _$GeofenceVisitModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$GeofenceVisitModelImplFromJson(json);
@@ -516,72 +496,70 @@ class _$GeofenceVisitModelImpl implements _GeofenceVisitModel {
                 other.updatedAt == updatedAt));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hashAll([
-    runtimeType,
-    id,
-    vehicleId,
-    vehicleAlias,
-    ruteId,
-    gpsTime,
-    outletSiteId,
-    outletName,
-    deliveryType,
-    isValidSchedule,
-    entryTime,
-    exitTime,
-    entryTemp,
-    exitTemp,
-    entryDistM,
-    minDistM,
-    durationMin,
-    status,
-    isMobile,
-    createdAt,
-    updatedAt,
-  ]);
+        runtimeType,
+        id,
+        vehicleId,
+        vehicleAlias,
+        ruteId,
+        gpsTime,
+        outletSiteId,
+        outletName,
+        deliveryType,
+        isValidSchedule,
+        entryTime,
+        exitTime,
+        entryTemp,
+        exitTemp,
+        entryDistM,
+        minDistM,
+        durationMin,
+        status,
+        isMobile,
+        createdAt,
+        updatedAt
+      ]);
 
-  /// Create a copy of GeofenceVisitModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GeofenceVisitModelImplCopyWith<_$GeofenceVisitModelImpl> get copyWith =>
       __$$GeofenceVisitModelImplCopyWithImpl<_$GeofenceVisitModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GeofenceVisitModelImplToJson(this);
+    return _$$GeofenceVisitModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _GeofenceVisitModel implements GeofenceVisitModel {
-  const factory _GeofenceVisitModel({
-    required final int id,
-    @JsonKey(name: 'vehicle_id') required final String vehicleId,
-    @JsonKey(name: 'vehicle_alias') required final String vehicleAlias,
-    @JsonKey(name: 'rute_id') required final String ruteId,
-    @JsonKey(name: 'gps_time') required final String? gpsTime,
-    @JsonKey(name: 'outlet_site_id') required final String outletSiteId,
-    @JsonKey(name: 'outlet_name') required final String outletName,
-    @JsonKey(name: 'delivery_type') required final String? deliveryType,
-    @JsonKey(name: 'is_valid_schedule') required final bool isValidSchedule,
-    @JsonKey(name: 'entry_time') required final String entryTime,
-    @JsonKey(name: 'exit_time') required final String? exitTime,
-    @JsonKey(name: 'entry_temp') required final double entryTemp,
-    @JsonKey(name: 'exit_temp') required final double exitTemp,
-    @JsonKey(name: 'entry_dist_m') required final double entryDistM,
-    @JsonKey(name: 'min_dist_m') required final double minDistM,
-    @JsonKey(name: 'duration_min') required final int durationMin,
-    required final String status,
-    @JsonKey(name: 'is_mobile') required final bool isMobile,
-    @JsonKey(name: 'created_at') required final String? createdAt,
-    @JsonKey(name: 'updated_at') required final String? updatedAt,
-  }) = _$GeofenceVisitModelImpl;
+  const factory _GeofenceVisitModel(
+      {required final int id,
+      @JsonKey(name: 'vehicle_id') required final String vehicleId,
+      @JsonKey(name: 'vehicle_alias') required final String vehicleAlias,
+      @JsonKey(name: 'rute_id') required final String ruteId,
+      @JsonKey(name: 'gps_time') required final String? gpsTime,
+      @JsonKey(name: 'outlet_site_id') required final String outletSiteId,
+      @JsonKey(name: 'outlet_name') required final String outletName,
+      @JsonKey(name: 'delivery_type') required final String? deliveryType,
+      @JsonKey(name: 'is_valid_schedule') required final bool isValidSchedule,
+      @JsonKey(name: 'entry_time') required final String entryTime,
+      @JsonKey(name: 'exit_time') required final String? exitTime,
+      @JsonKey(name: 'entry_temp') required final double entryTemp,
+      @JsonKey(name: 'exit_temp') required final double exitTemp,
+      @JsonKey(name: 'entry_dist_m') required final double entryDistM,
+      @JsonKey(name: 'min_dist_m') required final double minDistM,
+      @JsonKey(name: 'duration_min') required final int durationMin,
+      required final String status,
+      @JsonKey(name: 'is_mobile') required final bool isMobile,
+      @JsonKey(name: 'created_at') required final String? createdAt,
+      @JsonKey(name: 'updated_at')
+      required final String? updatedAt}) = _$GeofenceVisitModelImpl;
 
   factory _GeofenceVisitModel.fromJson(Map<String, dynamic> json) =
       _$GeofenceVisitModelImpl.fromJson;
@@ -644,11 +622,8 @@ abstract class _GeofenceVisitModel implements GeofenceVisitModel {
   @override
   @JsonKey(name: 'updated_at')
   String? get updatedAt;
-
-  /// Create a copy of GeofenceVisitModel
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GeofenceVisitModelImplCopyWith<_$GeofenceVisitModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

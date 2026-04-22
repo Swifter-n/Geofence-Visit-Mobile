@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:geofence_visit_mobile/core/constants/colors.dart';
+import 'package:geofence_visit_mobile/core/constants/text_styles.dart';
 
 class AppButton extends StatelessWidget {
-final String label;
-final VoidCallBack onPressed;
-final bool isLoading;
-final bool isOutlined;
-final Color color;
+  final String label;
+  final VoidCallback onPressed;
+  final bool isLoading;
+  final bool isOutlined;
+  final Color color;
   const AppButton({
     required this.label,
     required this.onPressed,
     this.isLoading = false,
     this.isOutlined = false,
     this.color = Colors.blue,
-    super.key});
+    super.key,
+  });
 
- @override
+  @override
   Widget build(BuildContext context) {
     if (isOutlined) {
       return OutlinedButton(
@@ -36,9 +39,7 @@ final Color color;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: color ?? AppColors.primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ), 
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         minimumSize: const Size(double.infinity, 50),
         elevation: 0,
       ),

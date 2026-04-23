@@ -27,6 +27,7 @@ class VisitBloc extends Bloc<VisitEvent, VisitState> {
         event.payload,
         event.photoPaths,
       );
+
       emit(
         VisitState.success(
           message: isOffline

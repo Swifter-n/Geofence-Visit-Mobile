@@ -14,8 +14,8 @@ class CheckInPayload with _$CheckInPayload {
     @JsonKey(name: 'rute_id') String? ruteId,
     @JsonKey(name: 'outlet_name') String? outletName,
     @JsonKey(name: 'delivery_type') String? deliveryType,
-    @JsonKey(name: 'entry_temp') double? entryTemp,
-    @JsonKey(name: 'exit_temp') double? exitTemp,
+    @JsonKey(name: 'entry_time') String? entryTime,
+    @JsonKey(name: 'exit_time') String? exitTime,
     @JsonKey(name: 'gps_time') String? gpsTime,
     // photos dikirim sebagai multipart, tidak di sini
   }) = _CheckInPayload;

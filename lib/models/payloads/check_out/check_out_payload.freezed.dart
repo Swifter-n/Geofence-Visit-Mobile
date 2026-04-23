@@ -28,8 +28,10 @@ mixin _$CheckOutPayload {
   String get outletSiteId => throw _privateConstructorUsedError;
   @JsonKey(name: 'vehicle_alias')
   String? get vehicleAlias => throw _privateConstructorUsedError;
-  @JsonKey(name: 'exit_temp')
-  double? get exitTemp => throw _privateConstructorUsedError;
+  @JsonKey(name: 'rute_id')
+  String? get ruteId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'exit_time')
+  String? get exitTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'gps_time')
   String? get gpsTime => throw _privateConstructorUsedError;
 
@@ -51,7 +53,8 @@ abstract class $CheckOutPayloadCopyWith<$Res> {
       double longitude,
       @JsonKey(name: 'outlet_site_id') String outletSiteId,
       @JsonKey(name: 'vehicle_alias') String? vehicleAlias,
-      @JsonKey(name: 'exit_temp') double? exitTemp,
+      @JsonKey(name: 'rute_id') String? ruteId,
+      @JsonKey(name: 'exit_time') String? exitTime,
       @JsonKey(name: 'gps_time') String? gpsTime});
 }
 
@@ -73,7 +76,8 @@ class _$CheckOutPayloadCopyWithImpl<$Res, $Val extends CheckOutPayload>
     Object? longitude = null,
     Object? outletSiteId = null,
     Object? vehicleAlias = freezed,
-    Object? exitTemp = freezed,
+    Object? ruteId = freezed,
+    Object? exitTime = freezed,
     Object? gpsTime = freezed,
   }) {
     return _then(_value.copyWith(
@@ -97,10 +101,14 @@ class _$CheckOutPayloadCopyWithImpl<$Res, $Val extends CheckOutPayload>
           ? _value.vehicleAlias
           : vehicleAlias // ignore: cast_nullable_to_non_nullable
               as String?,
-      exitTemp: freezed == exitTemp
-          ? _value.exitTemp
-          : exitTemp // ignore: cast_nullable_to_non_nullable
-              as double?,
+      ruteId: freezed == ruteId
+          ? _value.ruteId
+          : ruteId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      exitTime: freezed == exitTime
+          ? _value.exitTime
+          : exitTime // ignore: cast_nullable_to_non_nullable
+              as String?,
       gpsTime: freezed == gpsTime
           ? _value.gpsTime
           : gpsTime // ignore: cast_nullable_to_non_nullable
@@ -123,7 +131,8 @@ abstract class _$$CheckOutPayloadImplCopyWith<$Res>
       double longitude,
       @JsonKey(name: 'outlet_site_id') String outletSiteId,
       @JsonKey(name: 'vehicle_alias') String? vehicleAlias,
-      @JsonKey(name: 'exit_temp') double? exitTemp,
+      @JsonKey(name: 'rute_id') String? ruteId,
+      @JsonKey(name: 'exit_time') String? exitTime,
       @JsonKey(name: 'gps_time') String? gpsTime});
 }
 
@@ -143,7 +152,8 @@ class __$$CheckOutPayloadImplCopyWithImpl<$Res>
     Object? longitude = null,
     Object? outletSiteId = null,
     Object? vehicleAlias = freezed,
-    Object? exitTemp = freezed,
+    Object? ruteId = freezed,
+    Object? exitTime = freezed,
     Object? gpsTime = freezed,
   }) {
     return _then(_$CheckOutPayloadImpl(
@@ -167,10 +177,14 @@ class __$$CheckOutPayloadImplCopyWithImpl<$Res>
           ? _value.vehicleAlias
           : vehicleAlias // ignore: cast_nullable_to_non_nullable
               as String?,
-      exitTemp: freezed == exitTemp
-          ? _value.exitTemp
-          : exitTemp // ignore: cast_nullable_to_non_nullable
-              as double?,
+      ruteId: freezed == ruteId
+          ? _value.ruteId
+          : ruteId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      exitTime: freezed == exitTime
+          ? _value.exitTime
+          : exitTime // ignore: cast_nullable_to_non_nullable
+              as String?,
       gpsTime: freezed == gpsTime
           ? _value.gpsTime
           : gpsTime // ignore: cast_nullable_to_non_nullable
@@ -188,7 +202,8 @@ class _$CheckOutPayloadImpl implements _CheckOutPayload {
       required this.longitude,
       @JsonKey(name: 'outlet_site_id') required this.outletSiteId,
       @JsonKey(name: 'vehicle_alias') this.vehicleAlias,
-      @JsonKey(name: 'exit_temp') this.exitTemp,
+      @JsonKey(name: 'rute_id') this.ruteId,
+      @JsonKey(name: 'exit_time') this.exitTime,
       @JsonKey(name: 'gps_time') this.gpsTime});
 
   factory _$CheckOutPayloadImpl.fromJson(Map<String, dynamic> json) =>
@@ -208,15 +223,18 @@ class _$CheckOutPayloadImpl implements _CheckOutPayload {
   @JsonKey(name: 'vehicle_alias')
   final String? vehicleAlias;
   @override
-  @JsonKey(name: 'exit_temp')
-  final double? exitTemp;
+  @JsonKey(name: 'rute_id')
+  final String? ruteId;
+  @override
+  @JsonKey(name: 'exit_time')
+  final String? exitTime;
   @override
   @JsonKey(name: 'gps_time')
   final String? gpsTime;
 
   @override
   String toString() {
-    return 'CheckOutPayload(vehicleId: $vehicleId, latitude: $latitude, longitude: $longitude, outletSiteId: $outletSiteId, vehicleAlias: $vehicleAlias, exitTemp: $exitTemp, gpsTime: $gpsTime)';
+    return 'CheckOutPayload(vehicleId: $vehicleId, latitude: $latitude, longitude: $longitude, outletSiteId: $outletSiteId, vehicleAlias: $vehicleAlias, ruteId: $ruteId, exitTime: $exitTime, gpsTime: $gpsTime)';
   }
 
   @override
@@ -234,15 +252,16 @@ class _$CheckOutPayloadImpl implements _CheckOutPayload {
                 other.outletSiteId == outletSiteId) &&
             (identical(other.vehicleAlias, vehicleAlias) ||
                 other.vehicleAlias == vehicleAlias) &&
-            (identical(other.exitTemp, exitTemp) ||
-                other.exitTemp == exitTemp) &&
+            (identical(other.ruteId, ruteId) || other.ruteId == ruteId) &&
+            (identical(other.exitTime, exitTime) ||
+                other.exitTime == exitTime) &&
             (identical(other.gpsTime, gpsTime) || other.gpsTime == gpsTime));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, vehicleId, latitude, longitude,
-      outletSiteId, vehicleAlias, exitTemp, gpsTime);
+      outletSiteId, vehicleAlias, ruteId, exitTime, gpsTime);
 
   @JsonKey(ignore: true)
   @override
@@ -266,7 +285,8 @@ abstract class _CheckOutPayload implements CheckOutPayload {
           required final double longitude,
           @JsonKey(name: 'outlet_site_id') required final String outletSiteId,
           @JsonKey(name: 'vehicle_alias') final String? vehicleAlias,
-          @JsonKey(name: 'exit_temp') final double? exitTemp,
+          @JsonKey(name: 'rute_id') final String? ruteId,
+          @JsonKey(name: 'exit_time') final String? exitTime,
           @JsonKey(name: 'gps_time') final String? gpsTime}) =
       _$CheckOutPayloadImpl;
 
@@ -287,8 +307,11 @@ abstract class _CheckOutPayload implements CheckOutPayload {
   @JsonKey(name: 'vehicle_alias')
   String? get vehicleAlias;
   @override
-  @JsonKey(name: 'exit_temp')
-  double? get exitTemp;
+  @JsonKey(name: 'rute_id')
+  String? get ruteId;
+  @override
+  @JsonKey(name: 'exit_time')
+  String? get exitTime;
   @override
   @JsonKey(name: 'gps_time')
   String? get gpsTime;

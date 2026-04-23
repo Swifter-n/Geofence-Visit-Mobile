@@ -63,7 +63,14 @@ class ApiClient {
     final headers = await _getHeaders();
     headers.remove('Content-Type');
 
-    final url = Uri.parse('${Variables.baseUrl}/$endpoint');
+    final String cleanBaseUrl = Variables.baseUrl.endsWith('/')
+        ? Variables.baseUrl
+        : '${Variables.baseUrl}/';
+    final String cleanEndpoint = endpoint.startsWith('/')
+        ? endpoint.substring(1)
+        : endpoint;
+
+    final url = Uri.parse('$cleanBaseUrl$cleanEndpoint');
 
     var request = http.MultipartRequest('POST', url);
     request.headers.addAll(headers);

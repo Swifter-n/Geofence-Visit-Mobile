@@ -11,7 +11,8 @@ class CheckOutPayload with _$CheckOutPayload {
     required double longitude,
     @JsonKey(name: 'outlet_site_id') required String outletSiteId,
     @JsonKey(name: 'vehicle_alias') String? vehicleAlias,
-    @JsonKey(name: 'exit_temp') double? exitTemp,
+    @JsonKey(name: 'rute_id') String? ruteId,
+    @JsonKey(name: 'exit_time') String? exitTime,
     @JsonKey(name: 'gps_time') String? gpsTime,
   }) = _CheckOutPayload;
 

@@ -40,6 +40,8 @@ class AuthRepository {
     }
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('access_token');
+    await prefs.remove('is_checked_in');
+    await prefs.remove('saved_outlet');
   }
 
   Future<UserModel> getMe() async {

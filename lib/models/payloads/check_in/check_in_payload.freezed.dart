@@ -34,10 +34,10 @@ mixin _$CheckInPayload {
   String? get outletName => throw _privateConstructorUsedError;
   @JsonKey(name: 'delivery_type')
   String? get deliveryType => throw _privateConstructorUsedError;
-  @JsonKey(name: 'entry_temp')
-  double? get entryTemp => throw _privateConstructorUsedError;
-  @JsonKey(name: 'exit_temp')
-  double? get exitTemp => throw _privateConstructorUsedError;
+  @JsonKey(name: 'entry_time')
+  String? get entryTime => throw _privateConstructorUsedError;
+  @JsonKey(name: 'exit_time')
+  String? get exitTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'gps_time')
   String? get gpsTime => throw _privateConstructorUsedError;
 
@@ -62,8 +62,8 @@ abstract class $CheckInPayloadCopyWith<$Res> {
       @JsonKey(name: 'rute_id') String? ruteId,
       @JsonKey(name: 'outlet_name') String? outletName,
       @JsonKey(name: 'delivery_type') String? deliveryType,
-      @JsonKey(name: 'entry_temp') double? entryTemp,
-      @JsonKey(name: 'exit_temp') double? exitTemp,
+      @JsonKey(name: 'entry_time') String? entryTime,
+      @JsonKey(name: 'exit_time') String? exitTime,
       @JsonKey(name: 'gps_time') String? gpsTime});
 }
 
@@ -88,8 +88,8 @@ class _$CheckInPayloadCopyWithImpl<$Res, $Val extends CheckInPayload>
     Object? ruteId = freezed,
     Object? outletName = freezed,
     Object? deliveryType = freezed,
-    Object? entryTemp = freezed,
-    Object? exitTemp = freezed,
+    Object? entryTime = freezed,
+    Object? exitTime = freezed,
     Object? gpsTime = freezed,
   }) {
     return _then(_value.copyWith(
@@ -125,14 +125,14 @@ class _$CheckInPayloadCopyWithImpl<$Res, $Val extends CheckInPayload>
           ? _value.deliveryType
           : deliveryType // ignore: cast_nullable_to_non_nullable
               as String?,
-      entryTemp: freezed == entryTemp
-          ? _value.entryTemp
-          : entryTemp // ignore: cast_nullable_to_non_nullable
-              as double?,
-      exitTemp: freezed == exitTemp
-          ? _value.exitTemp
-          : exitTemp // ignore: cast_nullable_to_non_nullable
-              as double?,
+      entryTime: freezed == entryTime
+          ? _value.entryTime
+          : entryTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      exitTime: freezed == exitTime
+          ? _value.exitTime
+          : exitTime // ignore: cast_nullable_to_non_nullable
+              as String?,
       gpsTime: freezed == gpsTime
           ? _value.gpsTime
           : gpsTime // ignore: cast_nullable_to_non_nullable
@@ -158,8 +158,8 @@ abstract class _$$CheckInPayloadImplCopyWith<$Res>
       @JsonKey(name: 'rute_id') String? ruteId,
       @JsonKey(name: 'outlet_name') String? outletName,
       @JsonKey(name: 'delivery_type') String? deliveryType,
-      @JsonKey(name: 'entry_temp') double? entryTemp,
-      @JsonKey(name: 'exit_temp') double? exitTemp,
+      @JsonKey(name: 'entry_time') String? entryTime,
+      @JsonKey(name: 'exit_time') String? exitTime,
       @JsonKey(name: 'gps_time') String? gpsTime});
 }
 
@@ -182,8 +182,8 @@ class __$$CheckInPayloadImplCopyWithImpl<$Res>
     Object? ruteId = freezed,
     Object? outletName = freezed,
     Object? deliveryType = freezed,
-    Object? entryTemp = freezed,
-    Object? exitTemp = freezed,
+    Object? entryTime = freezed,
+    Object? exitTime = freezed,
     Object? gpsTime = freezed,
   }) {
     return _then(_$CheckInPayloadImpl(
@@ -219,14 +219,14 @@ class __$$CheckInPayloadImplCopyWithImpl<$Res>
           ? _value.deliveryType
           : deliveryType // ignore: cast_nullable_to_non_nullable
               as String?,
-      entryTemp: freezed == entryTemp
-          ? _value.entryTemp
-          : entryTemp // ignore: cast_nullable_to_non_nullable
-              as double?,
-      exitTemp: freezed == exitTemp
-          ? _value.exitTemp
-          : exitTemp // ignore: cast_nullable_to_non_nullable
-              as double?,
+      entryTime: freezed == entryTime
+          ? _value.entryTime
+          : entryTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      exitTime: freezed == exitTime
+          ? _value.exitTime
+          : exitTime // ignore: cast_nullable_to_non_nullable
+              as String?,
       gpsTime: freezed == gpsTime
           ? _value.gpsTime
           : gpsTime // ignore: cast_nullable_to_non_nullable
@@ -247,8 +247,8 @@ class _$CheckInPayloadImpl implements _CheckInPayload {
       @JsonKey(name: 'rute_id') this.ruteId,
       @JsonKey(name: 'outlet_name') this.outletName,
       @JsonKey(name: 'delivery_type') this.deliveryType,
-      @JsonKey(name: 'entry_temp') this.entryTemp,
-      @JsonKey(name: 'exit_temp') this.exitTemp,
+      @JsonKey(name: 'entry_time') this.entryTime,
+      @JsonKey(name: 'exit_time') this.exitTime,
       @JsonKey(name: 'gps_time') this.gpsTime});
 
   factory _$CheckInPayloadImpl.fromJson(Map<String, dynamic> json) =>
@@ -277,18 +277,18 @@ class _$CheckInPayloadImpl implements _CheckInPayload {
   @JsonKey(name: 'delivery_type')
   final String? deliveryType;
   @override
-  @JsonKey(name: 'entry_temp')
-  final double? entryTemp;
+  @JsonKey(name: 'entry_time')
+  final String? entryTime;
   @override
-  @JsonKey(name: 'exit_temp')
-  final double? exitTemp;
+  @JsonKey(name: 'exit_time')
+  final String? exitTime;
   @override
   @JsonKey(name: 'gps_time')
   final String? gpsTime;
 
   @override
   String toString() {
-    return 'CheckInPayload(vehicleId: $vehicleId, latitude: $latitude, longitude: $longitude, outletSiteId: $outletSiteId, vehicleAlias: $vehicleAlias, ruteId: $ruteId, outletName: $outletName, deliveryType: $deliveryType, entryTemp: $entryTemp, exitTemp: $exitTemp, gpsTime: $gpsTime)';
+    return 'CheckInPayload(vehicleId: $vehicleId, latitude: $latitude, longitude: $longitude, outletSiteId: $outletSiteId, vehicleAlias: $vehicleAlias, ruteId: $ruteId, outletName: $outletName, deliveryType: $deliveryType, entryTime: $entryTime, exitTime: $exitTime, gpsTime: $gpsTime)';
   }
 
   @override
@@ -311,10 +311,10 @@ class _$CheckInPayloadImpl implements _CheckInPayload {
                 other.outletName == outletName) &&
             (identical(other.deliveryType, deliveryType) ||
                 other.deliveryType == deliveryType) &&
-            (identical(other.entryTemp, entryTemp) ||
-                other.entryTemp == entryTemp) &&
-            (identical(other.exitTemp, exitTemp) ||
-                other.exitTemp == exitTemp) &&
+            (identical(other.entryTime, entryTime) ||
+                other.entryTime == entryTime) &&
+            (identical(other.exitTime, exitTime) ||
+                other.exitTime == exitTime) &&
             (identical(other.gpsTime, gpsTime) || other.gpsTime == gpsTime));
   }
 
@@ -330,8 +330,8 @@ class _$CheckInPayloadImpl implements _CheckInPayload {
       ruteId,
       outletName,
       deliveryType,
-      entryTemp,
-      exitTemp,
+      entryTime,
+      exitTime,
       gpsTime);
 
   @JsonKey(ignore: true)
@@ -359,8 +359,8 @@ abstract class _CheckInPayload implements CheckInPayload {
       @JsonKey(name: 'rute_id') final String? ruteId,
       @JsonKey(name: 'outlet_name') final String? outletName,
       @JsonKey(name: 'delivery_type') final String? deliveryType,
-      @JsonKey(name: 'entry_temp') final double? entryTemp,
-      @JsonKey(name: 'exit_temp') final double? exitTemp,
+      @JsonKey(name: 'entry_time') final String? entryTime,
+      @JsonKey(name: 'exit_time') final String? exitTime,
       @JsonKey(name: 'gps_time') final String? gpsTime}) = _$CheckInPayloadImpl;
 
   factory _CheckInPayload.fromJson(Map<String, dynamic> json) =
@@ -389,11 +389,11 @@ abstract class _CheckInPayload implements CheckInPayload {
   @JsonKey(name: 'delivery_type')
   String? get deliveryType;
   @override
-  @JsonKey(name: 'entry_temp')
-  double? get entryTemp;
+  @JsonKey(name: 'entry_time')
+  String? get entryTime;
   @override
-  @JsonKey(name: 'exit_temp')
-  double? get exitTemp;
+  @JsonKey(name: 'exit_time')
+  String? get exitTime;
   @override
   @JsonKey(name: 'gps_time')
   String? get gpsTime;

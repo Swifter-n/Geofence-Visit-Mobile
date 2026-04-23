@@ -13,7 +13,10 @@ import 'package:geofence_visit_mobile/presentations/homepage/bloc/location/locat
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/master_data/master_data_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/visit/visit_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/widgets/outlet_search_bottom_sheet.dart';
+import 'package:geofence_visit_mobile/presentations/profile/pages/profile_screen.dart';
 import 'package:geolocator/geolocator.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomepageScreen extends StatefulWidget {
   const HomepageScreen({super.key});
@@ -25,6 +28,8 @@ class HomepageScreen extends StatefulWidget {
 class _HomepageScreenState extends State<HomepageScreen> {
   List<String> _capturedPhotoPaths = [];
   MasterRouteModel? selectedOutlet;
+  bool _isCheckedIn = false;
+  String _lastAction = '';
 
   @override
   void initState() {
@@ -33,6 +38,40 @@ class _HomepageScreenState extends State<HomepageScreen> {
     context.read<LocationBloc>().add(const LocationEvent.getCurrentLocation());
     // Tarik data master outlet/rute dari API backend
     context.read<MasterDataBloc>().add(const MasterDataEvent.fetchData());
+    _loadVisitState();
+  }
+
+  Future<void> _loadVisitState() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isCheckedIn = prefs.getBool('is_checked_in') ?? false;
+    final savedOutletStr = prefs.getString('saved_outlet');
+
+    setState(() {
+      _isCheckedIn = isCheckedIn;
+      // Jika terdeteksi sedang Check-In, otomatis isi kembali Dropdown Outlet-nya
+      if (savedOutletStr != null) {
+        selectedOutlet = MasterRouteModel.fromJson(jsonDecode(savedOutletStr));
+      }
+    });
+  }
+
+  Future<void> _saveVisitState(
+    bool isCheckedIn,
+    MasterRouteModel? outlet,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('is_checked_in', isCheckedIn);
+
+    if (outlet != null) {
+      await prefs.setString('saved_outlet', jsonEncode(outlet.toJson()));
+    } else {
+      await prefs.remove('saved_outlet');
+    }
+
+    setState(() {
+      _isCheckedIn = isCheckedIn;
+      selectedOutlet = outlet;
+    });
   }
 
   void _doCheckIn(Position position, UserModel user) {
@@ -45,16 +84,26 @@ class _HomepageScreenState extends State<HomepageScreen> {
       return;
     }
 
+    final now = DateTime.now();
+    final String formattedDateTime =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
+
+    final String dateNow = now.toIso8601String();
+
     final payload = CheckInPayload(
       latitude: position.latitude,
       longitude: position.longitude,
       vehicleId: user.vehicleId?.toString() ?? "0",
       outletSiteId: selectedOutlet!.outletSiteId,
       ruteId: selectedOutlet!.ruteId,
-      gpsTime: DateTime.now().toIso8601String(),
+      gpsTime: dateNow,
+      entryTime: formattedDateTime,
     );
 
-    context.read<VisitBloc>().add(VisitEvent.submitCheckIn(payload));
+    _lastAction = 'check_in';
+    context.read<VisitBloc>().add(
+      VisitEvent.submitCheckIn(payload, photoPaths: _capturedPhotoPaths),
+    );
   }
 
   void _doCheckOut(Position position, UserModel user) {
@@ -67,14 +116,22 @@ class _HomepageScreenState extends State<HomepageScreen> {
       return;
     }
 
+    final now = DateTime.now();
+    final String formattedDateTime =
+        "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')} ${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')}";
+    final String dateNow = now.toIso8601String();
+
     final payload = CheckOutPayload(
       latitude: position.latitude,
       longitude: position.longitude,
+      ruteId: selectedOutlet!.ruteId,
       vehicleId: user.vehicleId?.toString() ?? "0",
       outletSiteId: selectedOutlet!.outletSiteId,
-      gpsTime: DateTime.now().toIso8601String(),
+      gpsTime: dateNow,
+      exitTime: formattedDateTime,
     );
 
+    _lastAction = 'check_out';
     context.read<VisitBloc>().add(VisitEvent.submitCheckOut(payload));
   }
 
@@ -153,11 +210,22 @@ class _HomepageScreenState extends State<HomepageScreen> {
                     backgroundColor: isOffline ? Colors.orange : Colors.green,
                   ),
                 );
+
+                if (_lastAction == 'check_in') {
+                  _saveVisitState(true, selectedOutlet); // Kunci outlet
+                } else if (_lastAction == 'check_out') {
+                  _saveVisitState(false, null); // Lepas kunci
+                  setState(() {
+                    _capturedPhotoPaths.clear(); // Bersihkan preview foto
+                  });
+                }
+                _lastAction = '';
               },
               error: (message) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(message), backgroundColor: Colors.red),
                 );
+                _lastAction = '';
               },
               orElse: () {},
             );
@@ -193,9 +261,16 @@ class _HomepageScreenState extends State<HomepageScreen> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () =>
-                  context.read<AuthBloc>().add(const AuthEvent.logout()),
+              icon: const Icon(Icons.person_pin),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        ProfileScreen(user: user, isCheckedIn: _isCheckedIn),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -220,7 +295,10 @@ class _HomepageScreenState extends State<HomepageScreen> {
                 const SizedBox(height: 16),
                 _buildLocationCard(), // Kartu Status GPS
                 const SizedBox(height: 24),
-                _buildPhotoSection(),
+                if (!_isCheckedIn) ...[
+                  _buildPhotoSection(),
+                  const SizedBox(height: 24),
+                ],
                 const SizedBox(height: 24),
                 _buildActionButtons(user), // Tombol In/Out
               ],
@@ -265,8 +343,10 @@ class _HomepageScreenState extends State<HomepageScreen> {
 
                     // CUSTOM DROPDOWN TRIGGER
                     return InkWell(
-                      onTap: () =>
-                          _showOutletSearchBottomSheet(context, outlets),
+                      onTap: _isCheckedIn
+                          ? null
+                          : () =>
+                                _showOutletSearchBottomSheet(context, outlets),
                       borderRadius: BorderRadius.circular(8),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -274,6 +354,9 @@ class _HomepageScreenState extends State<HomepageScreen> {
                           vertical: 16,
                         ),
                         decoration: BoxDecoration(
+                          color: _isCheckedIn
+                              ? Colors.grey.shade200
+                              : Colors.transparent,
                           border: Border.all(color: Colors.grey.shade400),
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -602,7 +685,9 @@ class _HomepageScreenState extends State<HomepageScreen> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: isButtonDisabled || isSubmitting
+                        // CHECK IN MATI JIKA: Sudah check-in (_isCheckedIn == true) ATAU GPS/Radius gagal
+                        onPressed:
+                            (_isCheckedIn || isButtonDisabled || isSubmitting)
                             ? null
                             : () => _doCheckIn(currentPosition, user),
                         style: ElevatedButton.styleFrom(
@@ -612,7 +697,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: isSubmitting
+                        child: isSubmitting && _lastAction == 'check_in'
                             ? const SizedBox(
                                 width: 20,
                                 height: 20,
@@ -633,7 +718,9 @@ class _HomepageScreenState extends State<HomepageScreen> {
                     const SizedBox(width: 16),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: isButtonDisabled || isSubmitting
+                        // CHECK OUT MATI JIKA: BELUM check-in (!_isCheckedIn) ATAU GPS/Radius gagal
+                        onPressed:
+                            (!_isCheckedIn || isButtonDisabled || isSubmitting)
                             ? null
                             : () => _doCheckOut(currentPosition, user),
                         style: ElevatedButton.styleFrom(
@@ -643,7 +730,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: isSubmitting
+                        child: isSubmitting && _lastAction == 'check_out'
                             ? const SizedBox(
                                 width: 20,
                                 height: 20,

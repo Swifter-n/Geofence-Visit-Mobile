@@ -16,8 +16,8 @@ _$CheckInPayloadImpl _$$CheckInPayloadImplFromJson(Map<String, dynamic> json) =>
       ruteId: json['rute_id'] as String?,
       outletName: json['outlet_name'] as String?,
       deliveryType: json['delivery_type'] as String?,
-      entryTemp: (json['entry_temp'] as num?)?.toDouble(),
-      exitTemp: (json['exit_temp'] as num?)?.toDouble(),
+      entryTime: json['entry_time'] as String?,
+      exitTime: json['exit_time'] as String?,
       gpsTime: json['gps_time'] as String?,
     );
 
@@ -32,7 +32,7 @@ Map<String, dynamic> _$$CheckInPayloadImplToJson(
       'rute_id': instance.ruteId,
       'outlet_name': instance.outletName,
       'delivery_type': instance.deliveryType,
-      'entry_temp': instance.entryTemp,
-      'exit_temp': instance.exitTemp,
+      'entry_time': instance.entryTime,
+      'exit_time': instance.exitTime,
       'gps_time': instance.gpsTime,
     };

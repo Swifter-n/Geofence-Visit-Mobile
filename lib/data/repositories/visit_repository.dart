@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:geofence_visit_mobile/data/local/entities/offline_visit_entity.dart';
@@ -33,22 +35,63 @@ class VisitRepository {
 
     if (isOnline) {
       try {
-        final response = await apiClient.post(
-          '/mobile/check-in',
-          payload.toJson(),
-        );
-        if (response.statusCode >= 200 && response.statusCode < 300) {
-          return false; // Sukses online
+        http.Response response;
+
+        if (photoPaths.isNotEmpty) {
+          final Map<String, String> stringPayload = payload.toJson().map(
+            (key, value) => MapEntry(key, value.toString()),
+          );
+          response = await apiClient.postMultipart(
+            'mobile/check-in',
+            stringPayload,
+            photoPaths,
+          );
         } else {
-          throw Exception('Server error: ${response.statusCode}');
+          response = await apiClient.post('mobile/check-in', payload.toJson());
         }
+
+        if (response.statusCode == 401) {
+          throw Exception('UNAUTHENTICATED');
+        }
+        if (response.statusCode >= 200 && response.statusCode < 300) {
+          return false; // Berhasil Online
+        } else {
+          // BACA PESAN ERROR DARI BACKEND
+          String errorMsg = 'Error ${response.statusCode}';
+          try {
+            final decoded = jsonDecode(response.body);
+            errorMsg = decoded['message'] ?? response.body;
+          } catch (_) {}
+
+          // Lempar exception, JANGAN simpan offline!
+          throw Exception('Ditolak Server: $errorMsg');
+        }
+        // HANYA SIMPAN OFFLINE JIKA ERROR JARINGAN
+      } on SocketException catch (_) {
+        await _saveToLocal(
+          type: 'check_in',
+          payload: payload.toJson(),
+          photoPaths: photoPaths,
+        );
+        return true;
+      } on TimeoutException catch (_) {
+        await _saveToLocal(
+          type: 'check_in',
+          payload: payload.toJson(),
+          photoPaths: photoPaths,
+        );
+        return true;
       } catch (e) {
-        await _saveToLocal(type: 'check_in', payload: payload.toJson());
-        return true; // Gagal online (timeout/error), masuk offline
+        // Jika error dari backend (Exception di atas), lempar ke UI agar muncul warna merah
+        rethrow;
       }
     } else {
-      await _saveToLocal(type: 'check_in', payload: payload.toJson());
-      return true; // Murni offline
+      await _saveToLocal(
+        type: 'check_in',
+        payload: payload.toJson(),
+        photoPaths: photoPaths,
+      );
+      return true;
     }
   }
 
@@ -59,17 +102,32 @@ class VisitRepository {
     if (isOnline) {
       try {
         final response = await apiClient.post(
-          '/mobile/check-out',
+          'mobile/check-out',
           payload.toJson(),
         );
+
+        if (response.statusCode == 401) {
+          throw Exception('UNAUTHENTICATED');
+        }
         if (response.statusCode >= 200 && response.statusCode < 300) {
           return false;
         } else {
-          throw Exception('Server error: ${response.statusCode}');
+          String errorMsg = 'Error ${response.statusCode}';
+          try {
+            final decoded = jsonDecode(response.body);
+            errorMsg = decoded['message'] ?? response.body;
+          } catch (_) {}
+
+          throw Exception('Ditolak Server: $errorMsg');
         }
-      } catch (e) {
+      } on SocketException catch (_) {
         await _saveToLocal(type: 'check_out', payload: payload.toJson());
         return true;
+      } on TimeoutException catch (_) {
+        await _saveToLocal(type: 'check_out', payload: payload.toJson());
+        return true;
+      } catch (e) {
+        rethrow;
       }
     } else {
       await _saveToLocal(type: 'check_out', payload: payload.toJson());
@@ -116,6 +174,10 @@ class VisitRepository {
           );
         } else {
           response = await apiClient.post(endpoint, payloadMap);
+        }
+
+        if (response.statusCode == 401) {
+          throw Exception('UNAUTHENTICATED');
         }
 
         if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -165,15 +227,33 @@ class VisitRepository {
   //   }
   // }
 
+  // Future<void> _saveToLocal({
+  //   required String type,
+  //   required Map<String, dynamic> payload,
+  // }) async {
+  //   final entity = OfflineVisitEntity()
+  //     ..type = type
+  //     ..payloadJson = jsonEncode(payload)
+  //     ..timestamp = DateTime.now()
+  //     ..syncStatus = 0;
+
+  //   await localDb.saveOfflineVisit(entity);
+  // }
+
+  // Update parameter dengan menambahkan List<String>? photoPaths
   Future<void> _saveToLocal({
     required String type,
     required Map<String, dynamic> payload,
+    List<String>? photoPaths, // Tambahkan parameter ini
   }) async {
     final entity = OfflineVisitEntity()
       ..type = type
       ..payloadJson = jsonEncode(payload)
       ..timestamp = DateTime.now()
-      ..syncStatus = 0;
+      ..syncStatus = 0
+      ..localPhotoPath = photoPaths != null && photoPaths.isNotEmpty
+          ? jsonEncode(photoPaths)
+          : null;
 
     await localDb.saveOfflineVisit(entity);
   }

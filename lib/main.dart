@@ -8,6 +8,7 @@ import 'package:geofence_visit_mobile/data/repositories/auth_repository.dart';
 import 'package:geofence_visit_mobile/data/repositories/master_data_repository.dart';
 import 'package:geofence_visit_mobile/data/repositories/visit_repository.dart';
 import 'package:geofence_visit_mobile/presentations/auth/bloc/auth/auth_bloc.dart';
+import 'package:geofence_visit_mobile/presentations/auth/pages/login_screen.dart';
 import 'package:geofence_visit_mobile/presentations/auth/pages/splash_screen.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/location/location_bloc.dart';
 import 'package:geofence_visit_mobile/presentations/homepage/bloc/master_data/master_data_bloc.dart';
@@ -41,6 +42,8 @@ void main() async {
   );
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   final AuthRepository authRepository;
   final VisitRepository visitRepository;
@@ -55,13 +58,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 3. Daftarkan semua BLoC agar bisa diakses di seluruh aplikasi
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(repository: authRepository)
-            // Langsung tembak event check status saat app pertama dibuka
-            ..add(const AuthEvent.checkAuthStatus()),
+          create: (context) =>
+              AuthBloc(repository: authRepository)
+                ..add(const AuthEvent.checkAuthStatus()),
         ),
         BlocProvider<LocationBloc>(create: (context) => LocationBloc()),
         BlocProvider<VisitBloc>(
@@ -77,6 +79,26 @@ class MyApp extends StatelessWidget {
         title: 'Geofence Visit Mobile',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
+
+        navigatorKey: navigatorKey,
+
+        builder: (context, child) {
+          return BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                unauthenticated: () {
+                  navigatorKey.currentState?.pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const LoginScreen()),
+                    (route) => false,
+                  );
+                },
+                orElse: () {},
+              );
+            },
+            child: child!,
+          );
+        },
+
         home: const SplashScreen(),
       ),
     );
